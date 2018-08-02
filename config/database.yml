@@ -80,6 +80,4 @@ test:
 #
 production:
   <<: *default
-  database: opc-api_production
-  username: opc-api
-  password: <%= ENV['OPC-API_DATABASE_PASSWORD'] %>
+  url: <%= ENV['DATABASE_URL'] %>
