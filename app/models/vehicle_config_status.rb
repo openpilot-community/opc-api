@@ -1,0 +1,2 @@
+class VehicleConfigStatus < ApplicationRecord
+end

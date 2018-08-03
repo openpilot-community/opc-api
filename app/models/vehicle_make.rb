@@ -1,0 +1,2 @@
+class VehicleMake < ApplicationRecord
+end
