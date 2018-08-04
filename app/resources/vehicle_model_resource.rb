@@ -14,6 +14,12 @@ class VehicleModelResource < ApplicationResource
   # === Enable total count, when requested ===
   # allow_stat total: [:count]
   #
+
+
+  belongs_to :vehicle_make,
+    scope: -> { VehicleMake.all },
+    resource: VehicleMakeResource,
+    foreign_key: :vehicle_make_id
   # === Allow sideloading/sideposting of relationships ===
   # belongs_to :foo,
   #   foreign_key: :foo_id,

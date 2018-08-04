@@ -17,4 +17,6 @@ class SerializableVehicleConfigStatus < JSONAPI::Serializable::Resource
   attribute :description
   attribute :created_at
   attribute :updated_at
+
+  has_many :vehicle_config
 end

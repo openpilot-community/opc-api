@@ -20,6 +20,10 @@ class VehicleMakeResource < ApplicationResource
   #   resource: FooResource,
   #   scope: -> { Foo.all }
   #
+  has_many :vehicle_model,
+    scope: -> { VehicleModel.all },
+    resource: VehicleModelResource,
+    foreign_key: :vehicle_make_id
   # === Custom sorting logic ===
   # sort do |scope, att, dir|
   #   ... code ...

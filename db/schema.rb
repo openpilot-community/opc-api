@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_02_210800) do
+ActiveRecord::Schema.define(version: 2018_08_04_043826) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,6 +51,30 @@ ActiveRecord::Schema.define(version: 2018_08_02_210800) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["vehicle_make_id"], name: "index_vehicle_models_on_vehicle_make_id"
+  end
+
+  create_table "vehicle_option_availabilities", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "vehicle_options", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "vehicle_trim_options", force: :cascade do |t|
+    t.bigint "vehicle_trim_id"
+    t.bigint "vehicle_option_id"
+    t.bigint "vehicle_option_availability_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["vehicle_option_availability_id"], name: "index_vehicle_trim_options_on_vehicle_option_availability_id"
+    t.index ["vehicle_option_id"], name: "index_vehicle_trim_options_on_vehicle_option_id"
+    t.index ["vehicle_trim_id"], name: "index_vehicle_trim_options_on_vehicle_trim_id"
   end
 
   create_table "vehicle_trims", force: :cascade do |t|
@@ -98,11 +122,24 @@ ActiveRecord::Schema.define(version: 2018_08_02_210800) do
     t.index ["vehicle_model_id"], name: "index_vehicle_trims_on_vehicle_model_id"
   end
 
+  create_table "versions", force: :cascade do |t|
+    t.string "item_type", null: false
+    t.integer "item_id", null: false
+    t.string "event", null: false
+    t.string "whodunnit"
+    t.text "object"
+    t.datetime "created_at"
+    t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
+  end
+
   add_foreign_key "vehicle_configs", "vehicle_config_statuses"
   add_foreign_key "vehicle_configs", "vehicle_makes"
   add_foreign_key "vehicle_configs", "vehicle_models"
   add_foreign_key "vehicle_configs", "vehicle_trims"
   add_foreign_key "vehicle_models", "vehicle_makes"
+  add_foreign_key "vehicle_trim_options", "vehicle_option_availabilities"
+  add_foreign_key "vehicle_trim_options", "vehicle_options"
+  add_foreign_key "vehicle_trim_options", "vehicle_trims"
   add_foreign_key "vehicle_trims", "vehicle_makes"
   add_foreign_key "vehicle_trims", "vehicle_models"
 end

@@ -17,4 +17,8 @@ class SerializableVehicleConfig < JSONAPI::Serializable::Resource
   attribute :description
   attribute :created_at
   attribute :updated_at
+
+  belongs_to :vehicle_make
+  belongs_to :vehicle_model
+  belongs_to :vehicle_trim
 end

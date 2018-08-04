@@ -15,6 +15,9 @@ class SerializableVehicleTrim < JSONAPI::Serializable::Resource
   # end
   # attribute :vehicle_make
   # attribute :vehicle_model
+  belongs_to :vehicle_make
+  belongs_to :vehicle_model
+  belongs_to :vehicle_trim
   attribute :make_id
   attribute :make_display
   attribute :name
@@ -51,4 +54,6 @@ class SerializableVehicleTrim < JSONAPI::Serializable::Resource
   attribute :fuel_cap_l
   attribute :sold_in_us
   attribute :co2
+  attribute :created_at
+  attribute :updated_at
 end

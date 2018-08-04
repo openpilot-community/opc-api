@@ -20,6 +20,14 @@ class VehicleTrimResource < ApplicationResource
   #   resource: FooResource,
   #   scope: -> { Foo.all }
   #
+  belongs_to :vehicle_make,
+    scope: -> { VehicleMake.all },
+    resource: VehicleMakeResource,
+    foreign_key: :vehicle_make_id
+  belongs_to :vehicle_model,
+    scope: -> { VehicleModel.all },
+    resource: VehicleModelResource,
+    foreign_key: :vehicle_model_id
   # === Custom sorting logic ===
   # sort do |scope, att, dir|
   #   ... code ...
