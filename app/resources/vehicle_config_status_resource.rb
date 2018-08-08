@@ -28,7 +28,7 @@ class VehicleConfigStatusResource < ApplicationResource
   has_many :vehicle_config,
     scope: -> { VehicleConfig.all },
     resource: VehicleConfigResource,
-    foreign_key: :vehicle_config_id
+    foreign_key: :vehicle_config_status_id
     
   # === Change default sort ===
   # default_sort([{ title: :asc }])

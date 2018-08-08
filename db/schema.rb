@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_04_043826) do
+ActiveRecord::Schema.define(version: 2018_08_05_170326) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,17 +64,10 @@ ActiveRecord::Schema.define(version: 2018_08_04_043826) do
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "vehicle_trim_options", force: :cascade do |t|
-    t.bigint "vehicle_trim_id"
-    t.bigint "vehicle_option_id"
-    t.bigint "vehicle_option_availability_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["vehicle_option_availability_id"], name: "index_vehicle_trim_options_on_vehicle_option_availability_id"
-    t.index ["vehicle_option_id"], name: "index_vehicle_trim_options_on_vehicle_option_id"
-    t.index ["vehicle_trim_id"], name: "index_vehicle_trim_options_on_vehicle_trim_id"
+    t.string "alternate_name"
+    t.text "what_it_does"
+    t.text "what_it_doesnt_do"
+    t.string "reference_url"
   end
 
   create_table "vehicle_trims", force: :cascade do |t|
@@ -118,6 +111,35 @@ ActiveRecord::Schema.define(version: 2018_08_04_043826) do
     t.string "co2"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "forward_collision_warning"
+    t.integer "adaptive_cruise_control"
+    t.integer "lane_departure_warning"
+    t.integer "lane_keeping_assist"
+    t.integer "blind_spot_warning"
+    t.integer "rear_cross_traffic_alert"
+    t.integer "back_up_camera"
+    t.integer "adaptive_headlights"
+    t.integer "antilock_braking_system"
+    t.integer "automatic_emergency_braking"
+    t.integer "automatic_parallel_parking"
+    t.integer "backup_warning"
+    t.integer "biycle_detection"
+    t.integer "blind_spot_monitoring"
+    t.integer "brake_assist"
+    t.integer "curve_speed_warning"
+    t.integer "drowsiness_alert"
+    t.integer "electronic_stability_control"
+    t.integer "high_speed_alert"
+    t.integer "hill_descent_assist"
+    t.integer "hill_start_assist"
+    t.integer "left_turn_crash_avoidance"
+    t.integer "pedestrian_detection"
+    t.integer "push_button_start"
+    t.integer "sideview_camera"
+    t.integer "temperature_warning"
+    t.integer "tire_pressure_monitoring_system"
+    t.integer "traction_control"
+    t.integer "obstacle_detection"
     t.index ["vehicle_make_id"], name: "index_vehicle_trims_on_vehicle_make_id"
     t.index ["vehicle_model_id"], name: "index_vehicle_trims_on_vehicle_model_id"
   end
@@ -137,9 +159,6 @@ ActiveRecord::Schema.define(version: 2018_08_04_043826) do
   add_foreign_key "vehicle_configs", "vehicle_models"
   add_foreign_key "vehicle_configs", "vehicle_trims"
   add_foreign_key "vehicle_models", "vehicle_makes"
-  add_foreign_key "vehicle_trim_options", "vehicle_option_availabilities"
-  add_foreign_key "vehicle_trim_options", "vehicle_options"
-  add_foreign_key "vehicle_trim_options", "vehicle_trims"
   add_foreign_key "vehicle_trims", "vehicle_makes"
   add_foreign_key "vehicle_trims", "vehicle_models"
 end

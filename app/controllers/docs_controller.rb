@@ -26,4 +26,5 @@ class DocsController < ActionController::API
   jsonapi_resource '/v1/vehicle_models'
   jsonapi_resource '/v1/vehicle_config_statuses'
   jsonapi_resource '/v1/vehicle_configs'
+  jsonapi_resource '/v1/vehicle_option_availabilities'
 end

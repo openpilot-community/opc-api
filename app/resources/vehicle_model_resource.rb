@@ -16,6 +16,11 @@ class VehicleModelResource < ApplicationResource
   #
 
 
+  allow_filter :vehicle_make_id
+  
+  default_page_size(200)
+  default_sort([{ name: :asc }])
+  
   belongs_to :vehicle_make,
     scope: -> { VehicleMake.all },
     resource: VehicleMakeResource,

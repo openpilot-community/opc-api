@@ -8,8 +8,12 @@ class VehicleMakeResource < ApplicationResource
   model VehicleMake
   # Customize your resource here. Some common examples:
   #
+  default_page_size(200)
+  default_sort([{ name: :asc }])
   # === Allow ?filter[name] query parameter ===
-  # allow_filter :name
+  allow_filter :with_configs do |scope, value|
+    scope.with_configs
+  end
   #
   # === Enable total count, when requested ===
   # allow_stat total: [:count]
@@ -20,9 +24,20 @@ class VehicleMakeResource < ApplicationResource
   #   resource: FooResource,
   #   scope: -> { Foo.all }
   #
-  has_many :vehicle_model,
+  # allow_filter :vehicle_
+  has_many :vehicle_models,
     scope: -> { VehicleModel.all },
     resource: VehicleModelResource,
+    foreign_key: :vehicle_make_id
+  
+  # has_many :vehicle_models_with_configs,
+  #   scope: -> { VehicleModel.all },
+  #   resource: VehicleModelResource,
+  #   foreign_key: :vehicle_make_id
+
+  has_many :vehicle_configs,
+    scope: -> { VehicleConfig.all },
+    resource: VehicleConfigResource,
     foreign_key: :vehicle_make_id
   # === Custom sorting logic ===
   # sort do |scope, att, dir|

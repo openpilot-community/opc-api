@@ -1,8 +1,7 @@
 # Serializers define the rendered JSON for a model instance.
 # We use jsonapi-rb, which is similar to active_model_serializers.
-class SerializableVehicleModel < JSONAPI::Serializable::Resource
- 
-  type :vehicle_models
+class SerializableVehicleOptionAvailability < JSONAPI::Serializable::Resource
+  type :vehicle_option_availabilities
 
   # Add attributes here to ensure they get rendered, .e.g.
   #
@@ -17,7 +16,4 @@ class SerializableVehicleModel < JSONAPI::Serializable::Resource
   attribute :name
   attribute :created_at
   attribute :updated_at
-  attribute :has_configs
-  # attribute :vehicle_make
-  belongs_to :vehicle_make
 end
