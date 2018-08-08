@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_05_170326) do
+ActiveRecord::Schema.define(version: 2018_08_08_132045) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,6 +32,8 @@ ActiveRecord::Schema.define(version: 2018_08_05_170326) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "slug", null: false
+    t.index ["slug"], name: "index_vehicle_configs_on_slug", unique: true
     t.index ["vehicle_config_status_id"], name: "index_vehicle_configs_on_vehicle_config_status_id"
     t.index ["vehicle_make_id"], name: "index_vehicle_configs_on_vehicle_make_id"
     t.index ["vehicle_model_id"], name: "index_vehicle_configs_on_vehicle_model_id"
@@ -42,6 +44,8 @@ ActiveRecord::Schema.define(version: 2018_08_05_170326) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "slug", null: false
+    t.index ["slug"], name: "index_vehicle_makes_on_slug", unique: true
   end
 
   create_table "vehicle_models", force: :cascade do |t|
@@ -50,6 +54,8 @@ ActiveRecord::Schema.define(version: 2018_08_05_170326) do
     t.string "tmp_make_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "slug", null: false
+    t.index ["slug"], name: "index_vehicle_models_on_slug", unique: true
     t.index ["vehicle_make_id"], name: "index_vehicle_models_on_vehicle_make_id"
   end
 
