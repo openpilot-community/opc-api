@@ -20,6 +20,11 @@ class VehicleModelResource < ApplicationResource
   
   default_page_size(200)
   default_sort([{ name: :asc }])
+
+  has_many :vehicle_trims,
+    scope: -> { VehicleTrim.all },
+    resource: VehicleTrimResource,
+    foreign_key: :vehicle_trim_id
   
   belongs_to :vehicle_make,
     scope: -> { VehicleMake.all },

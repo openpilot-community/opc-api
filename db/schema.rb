@@ -10,14 +10,69 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_08_132045) do
+ActiveRecord::Schema.define(version: 2018_08_09_030017) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "hardware_items", force: :cascade do |t|
+    t.string "name"
+    t.string "alternate_name"
+    t.text "description"
+    t.bigint "hardware_type_id"
+    t.boolean "compatible_with_all_vehicles"
+    t.boolean "available_for_purchase"
+    t.string "purchase_url"
+    t.boolean "requires_assembly"
+    t.boolean "can_be_built"
+    t.string "build_plans_url"
+    t.text "notes"
+    t.string "image_url"
+    t.string "install_guide_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["hardware_type_id"], name: "index_hardware_items_on_hardware_type_id"
+  end
+
+  create_table "hardware_types", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "vehicle_capabilities", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "vehicle_config_capabilities", force: :cascade do |t|
+    t.bigint "vehicle_config_id"
+    t.bigint "vehicle_capability_id"
+    t.integer "kph"
+    t.integer "timeout"
+    t.boolean "confirmed"
+    t.integer "confirmed_by"
+    t.text "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["vehicle_capability_id"], name: "index_vehicle_config_capabilities_on_vehicle_capability_id"
+    t.index ["vehicle_config_id"], name: "index_vehicle_config_capabilities_on_vehicle_config_id"
+  end
+
   create_table "vehicle_config_statuses", force: :cascade do |t|
     t.string "name"
     t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "vehicle_config_types", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.integer "difficulty_level"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -160,6 +215,9 @@ ActiveRecord::Schema.define(version: 2018_08_08_132045) do
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
+  add_foreign_key "hardware_items", "hardware_types"
+  add_foreign_key "vehicle_config_capabilities", "vehicle_capabilities"
+  add_foreign_key "vehicle_config_capabilities", "vehicle_configs"
   add_foreign_key "vehicle_configs", "vehicle_config_statuses"
   add_foreign_key "vehicle_configs", "vehicle_makes"
   add_foreign_key "vehicle_configs", "vehicle_models"

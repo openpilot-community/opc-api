@@ -25,6 +25,11 @@ class VehicleMakeResource < ApplicationResource
   #   scope: -> { Foo.all }
   #
   # allow_filter :vehicle_
+  has_many :vehicle_trims,
+    scope: -> { VehicleTrim.all },
+    resource: VehicleTrimResource,
+    foreign_key: :vehicle_make_id
+  
   has_many :vehicle_models,
     scope: -> { VehicleModel.all },
     resource: VehicleModelResource,

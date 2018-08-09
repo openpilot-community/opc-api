@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  mount ForestLiana::Engine => '/forest'
+  if Rails.env.development? and defined?(Localtower)
+    mount Localtower::Engine, at: "localtower"
+  end
+
   scope path: '/api' do
     resources :docs, only: [:index], path: '/swagger'
 

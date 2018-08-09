@@ -20,6 +20,16 @@ class SerializableVehicleMake < JSONAPI::Serializable::Resource
   attribute :created_at
   attribute :updated_at
 
+  has_many :vehicle_trims do
+    data do
+      @object.vehicle_trims
+    end
+
+    link :related do
+      @url_helpers.vehicle_trims_url(filter: { vehicle_make_id: @object.id })
+    end
+  end
+  
   has_many :vehicle_models do
     data do
       @object.vehicle_models

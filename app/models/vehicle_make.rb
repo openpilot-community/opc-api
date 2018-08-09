@@ -4,6 +4,7 @@ class VehicleMake < ApplicationRecord
   
   has_many :vehicle_models
   has_many :vehicle_configs
+  has_many :vehicle_trims
 
   def self.with_configs
     left_outer_joins(:vehicle_configs).where.not(vehicle_configs: {id: nil})

@@ -1,0 +1,2 @@
+class VehicleConfigType < ApplicationRecord
+end

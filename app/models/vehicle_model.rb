@@ -3,6 +3,7 @@ class VehicleModel < ApplicationRecord
   before_create :set_slug
   belongs_to :vehicle_make
   has_many :vehicle_configs
+  has_many :vehicle_trims
 
   def has_configs
     !vehicle_configs.blank?

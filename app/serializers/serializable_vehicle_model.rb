@@ -21,4 +21,14 @@ class SerializableVehicleModel < JSONAPI::Serializable::Resource
   attribute :has_configs
   # attribute :vehicle_make
   belongs_to :vehicle_make
+  
+  has_many :vehicle_trims do
+    data do
+      @object.vehicle_trims
+    end
+
+    link :related do
+      @url_helpers.vehicle_trims_url(filter: { vehicle_model_id: @object.id })
+    end
+  end
 end

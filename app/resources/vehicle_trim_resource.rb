@@ -8,6 +8,11 @@ class VehicleTrimResource < ApplicationResource
   model VehicleTrim
   # Customize your resource here. Some common examples:
   #
+  default_page_size(200)
+  default_sort([{ name: :asc }])
+  allow_filter :year
+  allow_filter :vehicle_make_id
+  allow_filter :vehicle_model_id
   # === Allow ?filter[name] query parameter ===
   # allow_filter :name
   #
