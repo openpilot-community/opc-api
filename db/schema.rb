@@ -10,10 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_09_030017) do
+ActiveRecord::Schema.define(version: 2018_08_09_163112) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "friendly_id_slugs", id: :serial, force: :cascade do |t|
+    t.string "slug", null: false
+    t.integer "sluggable_id", null: false
+    t.string "sluggable_type", limit: 50
+    t.string "scope"
+    t.datetime "created_at"
+    t.index ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true
+    t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
+    t.index ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id"
+    t.index ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type"
+  end
 
   create_table "hardware_items", force: :cascade do |t|
     t.string "name"
@@ -41,6 +53,29 @@ ActiveRecord::Schema.define(version: 2018_08_09_030017) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "logins", force: :cascade do |t|
+    t.string "identification", null: false
+    t.string "password_digest"
+    t.string "oauth2_token", null: false
+    t.string "uid"
+    t.string "single_use_oauth2_token"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "provider"
+    t.index ["user_id"], name: "index_logins_on_user_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "username"
+    t.string "email"
+    t.string "slack_username"
+    t.string "github_username"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "avatar_url"
+  end
+
   create_table "vehicle_capabilities", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -58,8 +93,28 @@ ActiveRecord::Schema.define(version: 2018_08_09_030017) do
     t.text "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "vehicle_config_type_id"
     t.index ["vehicle_capability_id"], name: "index_vehicle_config_capabilities_on_vehicle_capability_id"
     t.index ["vehicle_config_id"], name: "index_vehicle_config_capabilities_on_vehicle_config_id"
+    t.index ["vehicle_config_type_id"], name: "index_vehicle_config_capabilities_on_vehicle_config_type_id"
+  end
+
+  create_table "vehicle_config_required_options", force: :cascade do |t|
+    t.bigint "vehicle_config_id"
+    t.bigint "vehicle_option_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["vehicle_config_id"], name: "vehicle_config_option"
+    t.index ["vehicle_option_id"], name: "vehicle_config_option_link"
+  end
+
+  create_table "vehicle_config_required_packages", force: :cascade do |t|
+    t.bigint "vehicle_config_id"
+    t.bigint "vehicle_make_package_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["vehicle_config_id"], name: "vehicle_config_package"
+    t.index ["vehicle_make_package_id"], name: "vehicle_config_package_link"
   end
 
   create_table "vehicle_config_statuses", force: :cascade do |t|
@@ -88,11 +143,21 @@ ActiveRecord::Schema.define(version: 2018_08_09_030017) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "slug", null: false
+    t.bigint "vehicle_make_package_id"
     t.index ["slug"], name: "index_vehicle_configs_on_slug", unique: true
     t.index ["vehicle_config_status_id"], name: "index_vehicle_configs_on_vehicle_config_status_id"
     t.index ["vehicle_make_id"], name: "index_vehicle_configs_on_vehicle_make_id"
+    t.index ["vehicle_make_package_id"], name: "index_vehicle_configs_on_vehicle_make_package_id"
     t.index ["vehicle_model_id"], name: "index_vehicle_configs_on_vehicle_model_id"
     t.index ["vehicle_trim_id"], name: "index_vehicle_configs_on_vehicle_trim_id"
+  end
+
+  create_table "vehicle_make_packages", force: :cascade do |t|
+    t.string "name"
+    t.bigint "vehicle_make_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["vehicle_make_id"], name: "index_vehicle_make_packages_on_vehicle_make_id"
   end
 
   create_table "vehicle_makes", force: :cascade do |t|
@@ -205,6 +270,14 @@ ActiveRecord::Schema.define(version: 2018_08_09_030017) do
     t.index ["vehicle_model_id"], name: "index_vehicle_trims_on_vehicle_model_id"
   end
 
+  create_table "version_associations", force: :cascade do |t|
+    t.integer "version_id"
+    t.string "foreign_key_name", null: false
+    t.integer "foreign_key_id"
+    t.index ["foreign_key_name", "foreign_key_id"], name: "index_version_associations_on_foreign_key"
+    t.index ["version_id"], name: "index_version_associations_on_version_id"
+  end
+
   create_table "versions", force: :cascade do |t|
     t.string "item_type", null: false
     t.integer "item_id", null: false
@@ -212,16 +285,25 @@ ActiveRecord::Schema.define(version: 2018_08_09_030017) do
     t.string "whodunnit"
     t.text "object"
     t.datetime "created_at"
+    t.text "object_changes"
+    t.integer "transaction_id"
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
+    t.index ["transaction_id"], name: "index_versions_on_transaction_id"
   end
 
   add_foreign_key "hardware_items", "hardware_types"
   add_foreign_key "vehicle_config_capabilities", "vehicle_capabilities"
   add_foreign_key "vehicle_config_capabilities", "vehicle_configs"
+  add_foreign_key "vehicle_config_required_options", "vehicle_configs"
+  add_foreign_key "vehicle_config_required_options", "vehicle_options"
+  add_foreign_key "vehicle_config_required_packages", "vehicle_configs"
+  add_foreign_key "vehicle_config_required_packages", "vehicle_make_packages"
   add_foreign_key "vehicle_configs", "vehicle_config_statuses"
+  add_foreign_key "vehicle_configs", "vehicle_make_packages"
   add_foreign_key "vehicle_configs", "vehicle_makes"
   add_foreign_key "vehicle_configs", "vehicle_models"
   add_foreign_key "vehicle_configs", "vehicle_trims"
+  add_foreign_key "vehicle_make_packages", "vehicle_makes"
   add_foreign_key "vehicle_models", "vehicle_makes"
   add_foreign_key "vehicle_trims", "vehicle_makes"
   add_foreign_key "vehicle_trims", "vehicle_models"

@@ -31,6 +31,15 @@
 #
 # For additional documentation, see https://jsonapi-suite.github.io/strong_resources
 StrongResources.configure do
+  strong_resource :user do
+    attribute :username, :string
+    attribute :email, :string
+    attribute :slack_username, :string
+    attribute :github_username, :string
+    attribute :avatar_url, :string
+    attribute :created_at, :string
+    attribute :updated_at, :string
+  end
   strong_resource :vehicle_option_availability do
     attribute :name, :string
     attribute :created_at, :string

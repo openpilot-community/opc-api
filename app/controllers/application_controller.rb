@@ -1,7 +1,8 @@
 class ApplicationController < ActionController::API
+  include RailsApiAuth::Authentication
   # Bootstrap jsonapi_suite with relevant modules
   include JsonapiSuite::ControllerMixin
-
+  before_action :authenticate!, only: [:create, :update, :destroy]
   register_exception JsonapiCompliable::Errors::RecordNotFound,
     status: 404
 

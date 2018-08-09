@@ -1,13 +1,10 @@
 Rails.application.routes.draw do
-  mount ForestLiana::Engine => '/forest'
-  if Rails.env.development? and defined?(Localtower)
-    mount Localtower::Engine, at: "localtower"
-  end
-
+  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   scope path: '/api' do
     resources :docs, only: [:index], path: '/swagger'
 
     scope path: '/v1' do
+      resources :users
       resources :vehicle_option_availabilities
       resources :vehicle_configs
       resources :vehicle_config_statuses
