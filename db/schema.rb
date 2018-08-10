@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_10_041043) do
+ActiveRecord::Schema.define(version: 2018_08_10_160842) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -227,10 +227,12 @@ ActiveRecord::Schema.define(version: 2018_08_10_041043) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "slug", null: false
     t.bigint "vehicle_make_package_id"
-    t.index ["slug"], name: "index_vehicle_configs_on_slug", unique: true
+    t.string "slug"
+    t.integer "parent_id"
+    t.bigint "vehicle_config_type_id"
     t.index ["vehicle_config_status_id"], name: "index_vehicle_configs_on_vehicle_config_status_id"
+    t.index ["vehicle_config_type_id"], name: "index_vehicle_configs_on_vehicle_config_type_id"
     t.index ["vehicle_make_id"], name: "index_vehicle_configs_on_vehicle_make_id"
     t.index ["vehicle_make_package_id"], name: "index_vehicle_configs_on_vehicle_make_package_id"
     t.index ["vehicle_model_id"], name: "index_vehicle_configs_on_vehicle_model_id"
@@ -249,9 +251,8 @@ ActiveRecord::Schema.define(version: 2018_08_10_041043) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "slug", null: false
     t.string "slack_channel"
-    t.index ["slug"], name: "index_vehicle_makes_on_slug", unique: true
+    t.string "slug"
   end
 
   create_table "vehicle_model_options", force: :cascade do |t|
@@ -274,8 +275,7 @@ ActiveRecord::Schema.define(version: 2018_08_10_041043) do
     t.string "tmp_make_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "slug", null: false
-    t.index ["slug"], name: "index_vehicle_models_on_slug", unique: true
+    t.string "slug"
     t.index ["vehicle_make_id"], name: "index_vehicle_models_on_vehicle_make_id"
   end
 
@@ -414,6 +414,20 @@ ActiveRecord::Schema.define(version: 2018_08_10_041043) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "votes", id: :serial, force: :cascade do |t|
+    t.string "votable_type"
+    t.integer "votable_id"
+    t.string "voter_type"
+    t.integer "voter_id"
+    t.boolean "vote_flag"
+    t.string "vote_scope"
+    t.integer "vote_weight"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["votable_id", "votable_type", "vote_scope"], name: "index_votes_on_votable_id_and_votable_type_and_vote_scope"
+    t.index ["voter_id", "voter_type", "vote_scope"], name: "index_votes_on_voter_id_and_voter_type_and_vote_scope"
+  end
+
   add_foreign_key "hardware_items", "hardware_types"
   add_foreign_key "vehicle_config_capabilities", "vehicle_capabilities"
   add_foreign_key "vehicle_config_capabilities", "vehicle_configs"
@@ -430,6 +444,7 @@ ActiveRecord::Schema.define(version: 2018_08_10_041043) do
   add_foreign_key "vehicle_config_videos", "vehicle_configs"
   add_foreign_key "vehicle_config_videos", "videos"
   add_foreign_key "vehicle_configs", "vehicle_config_statuses"
+  add_foreign_key "vehicle_configs", "vehicle_config_types"
   add_foreign_key "vehicle_configs", "vehicle_make_packages"
   add_foreign_key "vehicle_configs", "vehicle_makes"
   add_foreign_key "vehicle_configs", "vehicle_models"

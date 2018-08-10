@@ -16,7 +16,7 @@ require "rails/test_unit/railtie"
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
-
+ENV['RAILS_ADMIN_THEME'] = 'rollincode'
 module OpcApi
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.

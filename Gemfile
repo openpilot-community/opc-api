@@ -46,6 +46,7 @@ group :development do
 end
 gem 'iframely'
 gem 'seed_dump'
+gem 'rails_admin_rollincode', '~> 1.0'
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'smarter_csv', '~> 1.2', '>= 1.2.3'
@@ -65,3 +66,4 @@ gem 'nhtsa'
 group :test do
   gem 'database_cleaner', '~> 1.6'
 end
+gem 'acts_as_votable', '~> 0.11.1'

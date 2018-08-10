@@ -1,4 +1,10 @@
+class String
+  def is_i?
+    !!(self =~ /\A[-+]?[0-9]+\z/)
+  end
+end
 class ApplicationController < ActionController::API
+  
   include RailsApiAuth::Authentication
   # Bootstrap jsonapi_suite with relevant modules
   include JsonapiSuite::ControllerMixin

@@ -37,6 +37,16 @@ class VehicleConfigResource < ApplicationResource
     scope: -> { VehicleConfigStatus.all },
     resource: VehicleConfigStatusResource,
     foreign_key: :vehicle_config_status_id
+
+  belongs_to :parent,
+    scope: -> { VehicleConfig.all },
+    resource: VehicleConfigResource,
+    foreign_key: :parent_id
+  
+  has_many :forks,
+    scope: -> { VehicleConfig.all },
+    resource: VehicleConfigResource,
+    foreign_key: :parent_id
   # === Custom sorting logic ===
   # sort do |scope, att, dir|
   #   ... code ...

@@ -16,7 +16,6 @@ class SerializableVehicleMake < JSONAPI::Serializable::Resource
   # end
   attribute :name
   attribute :has_configs
-  attribute :slug
   attribute :created_at
   attribute :updated_at
 

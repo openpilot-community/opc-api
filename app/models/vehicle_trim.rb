@@ -1,7 +1,6 @@
 class VehicleTrim < ApplicationRecord
   has_paper_trail
-  before_create :set_slug
-  before_save :set_name
+  # before_save :set_name
   belongs_to :vehicle_make, :optional => true
   belongs_to :vehicle_model, :optional => true
   belongs_to :forward_collision_warning, :class_name => "VehicleOptionAvailability", :optional => true
@@ -41,17 +40,11 @@ class VehicleTrim < ApplicationRecord
   # def model_name
   #   vehicle_model.name
   # end
-  private
-  def set_slug
-    loop do
-      self.slug = SecureRandom.uuid
-      break unless VehicleMake.where(slug: slug).exists?
-    end
-  end
-  def set_name
-    loop do
-      self.name = "#{year} #{make.name} #{model.name} #{trim}"
-      break unless VehicleMake.where(slug: slug).exists?
-    end
-  end
+  # private
+  # def set_name
+  #   loop do
+  #     self.name = "#{year} #{make.name} #{model.name} #{trim}"
+  #     break unless VehicleMake.where().exists?
+  #   end
+  # end
 end

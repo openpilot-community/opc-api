@@ -39,45 +39,7 @@ RailsAdmin.config do |config|
   ## == Gravatar integration ==
   ## To disable Gravatar integration in Navigation Bar set to false
   # config.show_gravatar = true
-  config.model VehicleConfig do
-    
-    list do
-      # field :title do
-      #   sort_reverse false
-      # end
-      field :title
-      field :year
-      field :vehicle_make
-      field :vehicle_model
-      field :vehicle_make_package
-      field :vehicle_config_status
-    end
-
-    field :title
-    field :year
-    field :vehicle_make
-    field :vehicle_model
-    field :vehicle_trim
-    field :vehicle_config_status
-    field :description
-    field :vehicle_capabilities
-    field :vehicle_options
-    field :hardware_items
-    field :vehicle_make_package do
-      associated_collection_cache_all false  # REQUIRED if you want to SORT the list as below
-      associated_collection_scope do
-        # bindings[:object] & bindings[:controller] are available, but not in scope's block!
-        vehicle_config = bindings[:object]
-        puts vehicle_config.to_yaml
-        Proc.new { |scope|
-          # scoping all Players currently, let's limit them to the team's league
-          # Be sure to limit if there are a lot of Players and order them by position
-          scope = scope.where(vehicle_make_id: vehicle_config.vehicle_make_id) if vehicle_config.present?
-          # scope = scope.limit(30) # 'order' does not work here
-        }
-      end
-    end
-  end
+  config.main_app_name = ["vehicledb", "admin"]
   config.actions do
     dashboard                     # mandatory
     index                         # mandatory
