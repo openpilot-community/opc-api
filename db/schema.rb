@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_10_004320) do
+ActiveRecord::Schema.define(version: 2018_08_10_041043) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "contributors", force: :cascade do |t|
+    t.string "username"
+    t.string "avatar_url"
+    t.string "html_url"
+    t.integer "contributions"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "friendly_id_slugs", id: :serial, force: :cascade do |t|
     t.string "slug", null: false
@@ -64,6 +73,15 @@ ActiveRecord::Schema.define(version: 2018_08_10_004320) do
     t.datetime "updated_at", null: false
     t.string "provider"
     t.index ["user_id"], name: "index_logins_on_user_id"
+  end
+
+  create_table "modifications", force: :cascade do |t|
+    t.string "name"
+    t.string "summary"
+    t.text "description"
+    t.text "instructions"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "pull_requests", force: :cascade do |t|
@@ -130,6 +148,33 @@ ActiveRecord::Schema.define(version: 2018_08_10_004320) do
     t.index ["vehicle_config_type_id"], name: "index_vehicle_config_capabilities_on_vehicle_config_type_id"
   end
 
+  create_table "vehicle_config_hardwares", force: :cascade do |t|
+    t.bigint "vehicle_config_id"
+    t.bigint "hardware_item_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["hardware_item_id"], name: "index_vehicle_config_hardwares_on_hardware_item_id"
+    t.index ["vehicle_config_id"], name: "index_vehicle_config_hardwares_on_vehicle_config_id"
+  end
+
+  create_table "vehicle_config_pull_requests", force: :cascade do |t|
+    t.bigint "vehicle_config_id"
+    t.bigint "pull_request_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["pull_request_id"], name: "index_vehicle_config_pull_requests_on_pull_request_id"
+    t.index ["vehicle_config_id"], name: "index_vehicle_config_pull_requests_on_vehicle_config_id"
+  end
+
+  create_table "vehicle_config_repositories", force: :cascade do |t|
+    t.bigint "vehicle_config_id"
+    t.bigint "repository_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["repository_id"], name: "index_vehicle_config_repositories_on_repository_id"
+    t.index ["vehicle_config_id"], name: "index_vehicle_config_repositories_on_vehicle_config_id"
+  end
+
   create_table "vehicle_config_required_options", force: :cascade do |t|
     t.bigint "vehicle_config_id"
     t.bigint "vehicle_option_id"
@@ -161,6 +206,15 @@ ActiveRecord::Schema.define(version: 2018_08_10_004320) do
     t.integer "difficulty_level"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "vehicle_config_videos", force: :cascade do |t|
+    t.bigint "vehicle_config_id"
+    t.bigint "video_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["vehicle_config_id"], name: "index_vehicle_config_videos_on_vehicle_config_id"
+    t.index ["video_id"], name: "index_vehicle_config_videos_on_video_id"
   end
 
   create_table "vehicle_configs", force: :cascade do |t|
@@ -196,6 +250,7 @@ ActiveRecord::Schema.define(version: 2018_08_10_004320) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "slug", null: false
+    t.string "slack_channel"
     t.index ["slug"], name: "index_vehicle_makes_on_slug", unique: true
   end
 
@@ -336,13 +391,44 @@ ActiveRecord::Schema.define(version: 2018_08_10_004320) do
     t.index ["transaction_id"], name: "index_versions_on_transaction_id"
   end
 
+  create_table "video_hardwares", force: :cascade do |t|
+    t.bigint "video_id"
+    t.bigint "hardware_item_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["hardware_item_id"], name: "index_video_hardwares_on_hardware_item_id"
+    t.index ["video_id"], name: "index_video_hardwares_on_video_id"
+  end
+
+  create_table "videos", force: :cascade do |t|
+    t.string "title"
+    t.string "video_url"
+    t.string "provider_name"
+    t.string "author"
+    t.string "author_url"
+    t.string "thumbnail_url"
+    t.string "description"
+    t.string "html"
+    t.string "uploaded_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   add_foreign_key "hardware_items", "hardware_types"
   add_foreign_key "vehicle_config_capabilities", "vehicle_capabilities"
   add_foreign_key "vehicle_config_capabilities", "vehicle_configs"
+  add_foreign_key "vehicle_config_hardwares", "hardware_items"
+  add_foreign_key "vehicle_config_hardwares", "vehicle_configs"
+  add_foreign_key "vehicle_config_pull_requests", "pull_requests"
+  add_foreign_key "vehicle_config_pull_requests", "vehicle_configs"
+  add_foreign_key "vehicle_config_repositories", "repositories"
+  add_foreign_key "vehicle_config_repositories", "vehicle_configs"
   add_foreign_key "vehicle_config_required_options", "vehicle_configs"
   add_foreign_key "vehicle_config_required_options", "vehicle_options"
   add_foreign_key "vehicle_config_required_packages", "vehicle_configs"
   add_foreign_key "vehicle_config_required_packages", "vehicle_make_packages"
+  add_foreign_key "vehicle_config_videos", "vehicle_configs"
+  add_foreign_key "vehicle_config_videos", "videos"
   add_foreign_key "vehicle_configs", "vehicle_config_statuses"
   add_foreign_key "vehicle_configs", "vehicle_make_packages"
   add_foreign_key "vehicle_configs", "vehicle_makes"
@@ -356,4 +442,6 @@ ActiveRecord::Schema.define(version: 2018_08_10_004320) do
   add_foreign_key "vehicle_models", "vehicle_makes"
   add_foreign_key "vehicle_trims", "vehicle_makes"
   add_foreign_key "vehicle_trims", "vehicle_models"
+  add_foreign_key "video_hardwares", "hardware_items"
+  add_foreign_key "video_hardwares", "videos"
 end

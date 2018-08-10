@@ -44,15 +44,15 @@ class SerializableVehicleConfig < JSONAPI::Serializable::Resource
     end
   end
 
-  belongs_to :vehicle_trim do
-    data do
-      @object.vehicle_trim
-    end
+  # belongs_to :vehicle_trim do
+  #   data do
+  #     @object.vehicle_trim
+  #   end
 
-    link :related do
-      @url_helpers.vehicle_trim_url(@object.vehicle_trim_id)
-    end
-  end
+  #   link :related do
+  #     @url_helpers.vehicle_trim_url(@object.vehicle_trim_id)
+  #   end
+  # end
 
   belongs_to :vehicle_config_status do
     data do

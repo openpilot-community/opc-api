@@ -28,10 +28,10 @@ class VehicleConfigResource < ApplicationResource
     resource: VehicleModelResource,
     foreign_key: :vehicle_model_id
     
-  belongs_to :vehicle_trim,
-    scope: -> { VehicleTrim.all },
-    resource: VehicleTrimResource,
-    foreign_key: :vehicle_trim_id
+  # belongs_to :vehicle_trim,
+  #   scope: -> { VehicleTrim.all },
+  #   resource: VehicleTrimResource,
+  #   foreign_key: :vehicle_trim_id
 
   belongs_to :vehicle_config_status,
     scope: -> { VehicleConfigStatus.all },

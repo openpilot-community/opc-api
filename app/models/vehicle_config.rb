@@ -2,6 +2,10 @@ class VehicleConfig < ApplicationRecord
   before_create :set_slug
   belongs_to :vehicle_make
   belongs_to :vehicle_model
+  has_many :vehicle_config_videos
+  # has_many :videos, :through => :video_config_videos
+  has_many :vehicle_config_hardware
+  has_many :hardware_items, :through => :vehicle_config_hardware
   has_many :vehicle_model_options, :through => :vehicle_model
   has_many :vehicle_options, :through => :vehicle_model_options
   belongs_to :vehicle_trim, :optional => true
