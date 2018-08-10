@@ -16,6 +16,7 @@ class SerializableVehicleConfig < JSONAPI::Serializable::Resource
   # end
   attribute :title
   attribute :description
+  attribute :slug
   attribute :created_at
   attribute :updated_at
 

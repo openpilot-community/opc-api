@@ -21,9 +21,9 @@ class VehicleMakesController < ApplicationController
   # sparse fieldsets and statistics.
   def show
     scope = VehicleMake.friendly.find(params[:id])
-    instance = scope.resolve
-    raise JsonapiCompliable::Errors::RecordNotFound unless instance
-    render_jsonapi(instance, scope: false)
+    # instance = scope.resolve
+    raise JsonapiCompliable::Errors::RecordNotFound unless scope
+    render_jsonapi(scope, scope: false)
   end
 
   # jsonapi_create will use the configured Resource (and adapter) to persist.

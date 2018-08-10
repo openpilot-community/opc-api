@@ -15,6 +15,7 @@ class SerializableVehicleMake < JSONAPI::Serializable::Resource
   #   @object.name.upcase
   # end
   attribute :name
+  attribute :slug
   attribute :has_configs
   attribute :created_at
   attribute :updated_at
