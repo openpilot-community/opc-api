@@ -42,7 +42,6 @@ RailsAdmin.config do |config|
   config.model VehicleConfig do
     
     list do
-      sort_by "year, vehicle_makes.name, vehicle_models.name"
       # field :title do
       #   sort_reverse false
       # end
@@ -61,6 +60,8 @@ RailsAdmin.config do |config|
     field :vehicle_trim
     field :vehicle_config_status
     field :description
+    field :vehicle_capabilities
+    field :vehicle_options
     field :vehicle_make_package do
       associated_collection_cache_all false  # REQUIRED if you want to SORT the list as below
       associated_collection_scope do

@@ -31,6 +31,28 @@
 #
 # For additional documentation, see https://jsonapi-suite.github.io/strong_resources
 StrongResources.configure do
+  strong_resource :hardware_item do
+    attribute :name, :string
+    attribute :alternate_name, :string
+    attribute :description, :string
+    attribute :compatible_with_all_vehicles, :boolean
+    attribute :available_for_purchase, :boolean
+    attribute :purchase_url, :string
+    attribute :requires_assembly, :boolean
+    attribute :can_be_built, :boolean
+    attribute :build_plans_url, :string
+    attribute :notes, :string
+    attribute :image_url, :string
+    attribute :install_guide_url, :string
+    attribute :created_at, :string
+    attribute :updated_at, :string
+  end
+  strong_resource :hardware_type do
+    attribute :name, :string
+    attribute :description, :string
+    attribute :created_at, :string
+    attribute :updated_at, :string
+  end
   strong_resource :user do
     attribute :username, :string
     attribute :email, :string

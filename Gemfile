@@ -48,6 +48,7 @@ gem 'seed_dump'
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'smarter_csv', '~> 1.2', '>= 1.2.3'
+gem "octokit", "~> 4.0"
 gem 'jsonapi_suite', '~> 0.7'
 gem 'jsonapi-rails', '~> 0.3.0'
 gem 'jsonapi_swagger_helpers', '~> 0.6', require: false

@@ -28,4 +28,6 @@ class DocsController < ActionController::API
   jsonapi_resource '/v1/vehicle_configs'
   jsonapi_resource '/v1/vehicle_option_availabilities'
   jsonapi_resource '/v1/users'
+  jsonapi_resource '/v1/hardware_types'
+  jsonapi_resource '/v1/hardware_items'
 end

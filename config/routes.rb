@@ -4,6 +4,8 @@ Rails.application.routes.draw do
     resources :docs, only: [:index], path: '/swagger'
 
     scope path: '/v1' do
+      resources :hardware_items
+      resources :hardware_types
       resources :users
       resources :vehicle_option_availabilities
       resources :vehicle_configs

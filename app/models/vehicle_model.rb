@@ -4,7 +4,8 @@ class VehicleModel < ApplicationRecord
   belongs_to :vehicle_make
   has_many :vehicle_configs
   has_many :vehicle_trims
-
+  has_many :vehicle_model_options
+  has_many :vehicle_options, :through => :vehicle_model_options
   def has_configs
     !vehicle_configs.blank?
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_09_163112) do
+ActiveRecord::Schema.define(version: 2018_08_10_004320) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,6 +64,37 @@ ActiveRecord::Schema.define(version: 2018_08_09_163112) do
     t.datetime "updated_at", null: false
     t.string "provider"
     t.index ["user_id"], name: "index_logins_on_user_id"
+  end
+
+  create_table "pull_requests", force: :cascade do |t|
+    t.string "name"
+    t.string "number"
+    t.string "title"
+    t.string "state"
+    t.string "locked"
+    t.string "user"
+    t.string "body"
+    t.string "pr_created_at"
+    t.string "pr_updated_at"
+    t.string "closed_at"
+    t.string "merged_at"
+    t.string "merge_commit_sha"
+    t.string "head"
+    t.string "author_association"
+    t.string "html_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "repositories", force: :cascade do |t|
+    t.string "name"
+    t.string "full_name"
+    t.string "owner_login"
+    t.string "owner_avatar_url"
+    t.string "owner_url"
+    t.string "url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -166,6 +197,20 @@ ActiveRecord::Schema.define(version: 2018_08_09_163112) do
     t.datetime "updated_at", null: false
     t.string "slug", null: false
     t.index ["slug"], name: "index_vehicle_makes_on_slug", unique: true
+  end
+
+  create_table "vehicle_model_options", force: :cascade do |t|
+    t.integer "vehicle_year"
+    t.bigint "vehicle_make_id"
+    t.bigint "vehicle_model_id"
+    t.bigint "vehicle_option_id"
+    t.bigint "vehicle_option_availability_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["vehicle_make_id"], name: "index_vehicle_model_options_on_vehicle_make_id"
+    t.index ["vehicle_model_id"], name: "index_vehicle_model_options_on_vehicle_model_id"
+    t.index ["vehicle_option_availability_id"], name: "index_vehicle_model_options_on_vehicle_option_availability_id"
+    t.index ["vehicle_option_id"], name: "index_vehicle_model_options_on_vehicle_option_id"
   end
 
   create_table "vehicle_models", force: :cascade do |t|
@@ -304,6 +349,10 @@ ActiveRecord::Schema.define(version: 2018_08_09_163112) do
   add_foreign_key "vehicle_configs", "vehicle_models"
   add_foreign_key "vehicle_configs", "vehicle_trims"
   add_foreign_key "vehicle_make_packages", "vehicle_makes"
+  add_foreign_key "vehicle_model_options", "vehicle_makes"
+  add_foreign_key "vehicle_model_options", "vehicle_models"
+  add_foreign_key "vehicle_model_options", "vehicle_option_availabilities"
+  add_foreign_key "vehicle_model_options", "vehicle_options"
   add_foreign_key "vehicle_models", "vehicle_makes"
   add_foreign_key "vehicle_trims", "vehicle_makes"
   add_foreign_key "vehicle_trims", "vehicle_models"
