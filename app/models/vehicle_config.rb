@@ -2,13 +2,12 @@ class VehicleConfig < ApplicationRecord
   include VehicleConfigAdmin
   extend FriendlyId
   # default_scope { includes(:vehicle_make,:vehicle_model).order("vehicle_make.name, vehicle_model.name, year") }
-  friendly_id :full_name, use: :slugged
+  friendly_id :name_for_slug, use: :slugged
   belongs_to :vehicle_make
   belongs_to :vehicle_model
   belongs_to :parent, :class_name => "VehicleConfig", :optional => true
   has_many :forks, :foreign_key => :parent_id, :class_name => "VehicleConfig"
   has_many :vehicle_config_videos
-  # has_many :videos, :through => :video_config_videos
   has_many :vehicle_config_hardware
   has_many :hardware_items, :through => :vehicle_config_hardware
   has_many :vehicle_model_options, :through => :vehicle_model
@@ -24,6 +23,13 @@ class VehicleConfig < ApplicationRecord
     "[#{type.name}] #{year} #{vehicle_make.name} #{vehicle_model.name}"
   end
 
+  def name_for_slug
+    "#{id} #{year} #{vehicle_make.name} #{vehicle_model.name} #{type.name}"
+  end
+
+  # def to_param
+  #   slug
+  # end
   def is_base
     self.parent_id.blank?
   end

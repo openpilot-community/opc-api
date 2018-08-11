@@ -1,14 +1,23 @@
 class VehicleModel < ApplicationRecord
   extend FriendlyId
-  friendly_id :name, use: :slugged
+  friendly_id :name_for_slug, use: :slugged
   has_paper_trail
   belongs_to :vehicle_make
   has_many :vehicle_configs
   has_many :vehicle_trims
   has_many :vehicle_model_options
   has_many :vehicle_options, :through => :vehicle_model_options
+  
   def has_configs
     !vehicle_configs.blank?
+  end
+
+  # def to_param
+  #   slug
+  # end
+
+  def name_for_slug
+    "#{id} #{name}"
   end
 
   def self.with_configs

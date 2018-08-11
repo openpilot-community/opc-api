@@ -20,7 +20,7 @@ class VehicleMakesController < ApplicationController
   # Call jsonapi_scope directly here so we can get behavior like
   # sparse fieldsets and statistics.
   def show
-    scope = VehicleMake.friendly.find(params[:id])
+    scope = VehicleMake.find(params[:id])
     # instance = scope.resolve
     raise JsonapiCompliable::Errors::RecordNotFound unless scope
     render_jsonapi(scope, scope: false)
