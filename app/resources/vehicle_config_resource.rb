@@ -13,6 +13,9 @@ class VehicleConfigResource < ApplicationResource
 
   # === Allow ?filter[name] query parameter ===
   allow_filter :vehicle_config_status_id
+  allow_filter :vehicle_make_id
+  allow_filter :vehicle_model_id
+  allow_filter :parent_id
   #
   # === Enable total count, when requested ===
   # allow_stat total: [:count]
@@ -27,16 +30,21 @@ class VehicleConfigResource < ApplicationResource
     scope: -> { VehicleModel.all },
     resource: VehicleModelResource,
     foreign_key: :vehicle_model_id
-    
-  # belongs_to :vehicle_trim,
-  #   scope: -> { VehicleTrim.all },
-  #   resource: VehicleTrimResource,
-  #   foreign_key: :vehicle_trim_id
 
+  belongs_to :vehicle_config_type,
+    scope: -> { VehicleConfigType.all },
+    resource: VehicleConfigTypeResource,
+    foreign_key: :vehicle_config_type_id
+  
   belongs_to :vehicle_config_status,
     scope: -> { VehicleConfigStatus.all },
     resource: VehicleConfigStatusResource,
     foreign_key: :vehicle_config_status_id
+
+  belongs_to :vehicle_make_package,
+    scope: -> { VehicleMakePackage.all },
+    resource: VehicleMakePackageResource,
+    foreign_key: :vehicle_make_package_id
 
   belongs_to :parent,
     scope: -> { VehicleConfig.all },
@@ -47,24 +55,24 @@ class VehicleConfigResource < ApplicationResource
     scope: -> { VehicleConfig.all },
     resource: VehicleConfigResource,
     foreign_key: :parent_id
-  # === Custom sorting logic ===
-  # sort do |scope, att, dir|
-  #   ... code ...
-  # end
-  #
-  # === Change default sort ===
-  # default_sort([{ title: :asc }])
-  #
-  # === Custom pagination logic ===
-  # paginate do |scope, current_page, per_page|
-  #   ... code ...
-  # end
-  #
-  # === Change default page size ===
-  # default_page_size(10)
-  #
-  # === Change how we resolve the scope ===
-  # def resolve(scope)
-  #   ... code ...
-  # end
+  
+  has_many :vehicle_config_capabilities,
+    scope: -> { VehicleConfigCapability.all },
+    resource: VehicleConfigCapabilityResource,
+    foreign_key: :vehicle_config_id
+   
+  has_many :vehicle_config_modifications,
+    scope: -> { VehicleConfigModification.all },
+    resource: VehicleConfigModificationResource,
+    foreign_key: :vehicle_config_id
+  
+  has_many :vehicle_config_videos,
+    scope: -> { VehicleConfigVideo.all },
+    resource: VehicleConfigVideoResource,
+    foreign_key: :vehicle_config_id
+  
+  has_many :vehicle_config_hardware_items,
+    scope: -> { VehicleConfigHardwareItem.all },
+    resource: VehicleConfigHardwareItemResource,
+    foreign_key: :vehicle_config_id
 end

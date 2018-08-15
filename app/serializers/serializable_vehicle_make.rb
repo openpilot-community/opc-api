@@ -39,4 +39,6 @@ class SerializableVehicleMake < JSONAPI::Serializable::Resource
       @url_helpers.vehicle_models_url(filter: { vehicle_make_id: @object.id })
     end
   end
+
+  
 end

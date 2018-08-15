@@ -4,6 +4,8 @@ Rails.application.routes.draw do
     resources :docs, only: [:index], path: '/swagger'
 
     scope path: '/v1' do
+      resources :vehicle_config_modifications
+      resources :video_hardware_items
       resources :videos
       resources :video_hardwares
       resources :vehicle_options
@@ -15,7 +17,7 @@ Rails.application.routes.draw do
       resources :vehicle_config_required_options
       resources :vehicle_config_repositories
       resources :vehicle_config_pull_requests
-      resources :vehicle_config_hardwares
+      resources :vehicle_config_hardware_items
       resources :vehicle_config_capabilities
       resources :vehicle_capabilities
       resources :repositories

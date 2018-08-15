@@ -14,7 +14,21 @@ class SerializableVehicleMakePackage < JSONAPI::Serializable::Resource
   #   @object.name.upcase
   # end
   attribute :name
-  attribute :vehicle_make_id
+  attribute :slug
   attribute :created_at
   attribute :updated_at
+
+  belongs_to :vehicle_make do
+    data do
+      if @object.vehicle_make_id
+        @object.vehicle_make
+      end
+    end
+
+    link :related do
+      if @object.vehicle_make_id
+        @url_helpers.vehicle_make_url(@object.vehicle_make_id)
+      end
+    end
+  end
 end

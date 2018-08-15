@@ -45,6 +45,7 @@ RailsAdmin.config do |config|
     index                         # mandatory
     new
     export
+    clone
     bulk_delete
     show
     edit

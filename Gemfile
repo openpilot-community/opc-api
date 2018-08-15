@@ -21,9 +21,11 @@ gem 'puma', '~> 3.11'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
-
+# gem 'better_errors'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
+gem 'hashdiff'
+gem 'rails_admin_clone'
 gem 'rails_admin', '~> 1.3'
 gem 'jwt'
 gem 'rails_api_auth'

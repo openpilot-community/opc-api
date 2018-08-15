@@ -37,6 +37,6 @@ JsonapiSpecHelpers::Payload.register(:video) do
   key(:description, String)
   key(:html, String)
   key(:uploaded_at, String)
-  key(:created_at, Datetime)
-  key(:updated_at, Datetime)
+  key(:created_at, String)
+  key(:updated_at, String)
 end

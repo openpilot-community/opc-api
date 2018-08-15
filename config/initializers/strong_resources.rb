@@ -31,6 +31,12 @@
 #
 # For additional documentation, see https://jsonapi-suite.github.io/strong_resources
 StrongResources.configure do
+  strong_resource :vehicle_config_modification do
+  end
+  strong_resource :video_hardware_item do
+  end
+  strong_resource :vehicle_config_hardware_item do
+  end
   strong_resource :video do
     attribute :title, :string
     attribute :video_url, :string
@@ -44,12 +50,7 @@ StrongResources.configure do
     attribute :created_at, :datetime
     attribute :updated_at, :datetime
   end
-  strong_resource :video_hardware do
-    attribute :video_id, :integer
-    attribute :hardware_item_id, :integer
-    attribute :created_at, :datetime
-    attribute :updated_at, :datetime
-  end
+  
   strong_resource :vehicle_trim do
     attribute :vehicle_make_id, :integer
     attribute :vehicle_model_id, :integer

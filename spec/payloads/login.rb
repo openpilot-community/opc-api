@@ -34,7 +34,7 @@ JsonapiSpecHelpers::Payload.register(:login) do
   key(:uid, String)
   key(:single_use_oauth2_token, String)
   key(:user_id, Integer)
-  key(:created_at, Datetime)
-  key(:updated_at, Datetime)
+  key(:created_at, String)
+  key(:updated_at, String)
   key(:provider, String)
 end

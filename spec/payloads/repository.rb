@@ -34,6 +34,6 @@ JsonapiSpecHelpers::Payload.register(:repository) do
   key(:owner_avatar_url, String)
   key(:owner_url, String)
   key(:url, String)
-  key(:created_at, Datetime)
-  key(:updated_at, Datetime)
+  key(:created_at, String)
+  key(:updated_at, String)
 end

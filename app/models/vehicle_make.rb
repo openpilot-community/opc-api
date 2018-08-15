@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: vehicle_makes
+#
+#  id            :bigint(8)        not null, primary key
+#  name          :string
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  slack_channel :string
+#  slug          :string
+#
+
 class VehicleMake < ApplicationRecord
   extend FriendlyId
   friendly_id :name_for_slug, use: :slugged

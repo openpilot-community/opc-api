@@ -37,7 +37,7 @@ class DocsController < ActionController::API
   jsonapi_resource '/v1/repositories'
   jsonapi_resource '/v1/vehicle_capabilities'
   jsonapi_resource '/v1/vehicle_config_capabilities'
-  jsonapi_resource '/v1/vehicle_config_hardwares'
+  jsonapi_resource '/v1/vehicle_config_hardware_items'
   jsonapi_resource '/v1/vehicle_config_pull_requests'
   jsonapi_resource '/v1/vehicle_config_repositories'
   jsonapi_resource '/v1/vehicle_config_required_options'
@@ -47,6 +47,7 @@ class DocsController < ActionController::API
   jsonapi_resource '/v1/vehicle_make_packages'
   jsonapi_resource '/v1/vehicle_model_options'
   jsonapi_resource '/v1/vehicle_options'
-  jsonapi_resource '/v1/video_hardwares'
   jsonapi_resource '/v1/videos'
+  jsonapi_resource '/v1/video_hardware_items'
+  jsonapi_resource '/v1/vehicle_config_modifications'
 end

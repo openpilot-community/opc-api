@@ -32,6 +32,6 @@ JsonapiSpecHelpers::Payload.register(:contributor) do
   key(:avatar_url, String)
   key(:html_url, String)
   key(:contributions, Integer)
-  key(:created_at, Datetime)
-  key(:updated_at, Datetime)
+  key(:created_at, String)
+  key(:updated_at, String)
 end

@@ -30,6 +30,11 @@ class VehicleModelResource < ApplicationResource
     scope: -> { VehicleMake.all },
     resource: VehicleMakeResource,
     foreign_key: :vehicle_make_id
+  
+  has_many :vehicle_configs,
+    scope: -> { VehicleConfig.all },
+    resource: VehicleConfigResource,
+    foreign_key: :vehicle_make_id
   # === Allow sideloading/sideposting of relationships ===
   # belongs_to :foo,
   #   foreign_key: :foo_id,

@@ -25,6 +25,7 @@ class SerializableHardwareItem < JSONAPI::Serializable::Resource
   attribute :notes
   attribute :image_url
   attribute :install_guide_url
+  attribute :slug
   attribute :created_at
   attribute :updated_at
 end

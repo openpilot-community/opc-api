@@ -16,6 +16,7 @@ class SerializableVehicleConfigCapability < JSONAPI::Serializable::Resource
   attribute :vehicle_config_id
   attribute :vehicle_capability_id
   attribute :kph
+  attribute :mph
   attribute :timeout
   attribute :confirmed
   attribute :confirmed_by
@@ -23,4 +24,32 @@ class SerializableVehicleConfigCapability < JSONAPI::Serializable::Resource
   attribute :created_at
   attribute :updated_at
   attribute :vehicle_config_type_id
+
+  belongs_to :vehicle_config do
+    data do
+      if @object.vehicle_config_id
+        @object.vehicle_config
+      end
+    end
+
+    link :related do
+      if @object.vehicle_config_id
+        @url_helpers.vehicle_config_url(@object.vehicle_config_id)
+      end
+    end
+  end
+
+  belongs_to :vehicle_capability do
+    data do
+      if @object.vehicle_capability_id
+        @object.vehicle_capability
+      end
+    end
+
+    link :related do
+      if @object.vehicle_capability_id
+        @url_helpers.vehicle_capability_url(@object.vehicle_capability_id)
+      end
+    end
+  end
 end

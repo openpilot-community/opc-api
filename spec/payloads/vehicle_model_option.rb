@@ -33,6 +33,6 @@ JsonapiSpecHelpers::Payload.register(:vehicle_model_option) do
   key(:vehicle_model_id, Integer)
   key(:vehicle_option_id, Integer)
   key(:vehicle_option_availability_id, Integer)
-  key(:created_at, Datetime)
-  key(:updated_at, Datetime)
+  key(:created_at, String)
+  key(:updated_at, String)
 end

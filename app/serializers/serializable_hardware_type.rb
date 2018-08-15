@@ -15,6 +15,7 @@ class SerializableHardwareType < JSONAPI::Serializable::Resource
   # end
   attribute :name
   attribute :description
+  attribute :slug
   attribute :created_at
   attribute :updated_at
 end

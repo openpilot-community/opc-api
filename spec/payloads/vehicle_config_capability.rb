@@ -35,7 +35,7 @@ JsonapiSpecHelpers::Payload.register(:vehicle_config_capability) do
   key(:confirmed, [TrueClass, FalseClass])
   key(:confirmed_by, Integer)
   key(:notes, String)
-  key(:created_at, Datetime)
-  key(:updated_at, Datetime)
+  key(:created_at, String)
+  key(:updated_at, String)
   key(:vehicle_config_type_id, Integer)
 end

@@ -1,7 +1,26 @@
+# == Schema Information
+#
+# Table name: videos
+#
+#  id            :bigint(8)        not null, primary key
+#  title         :string
+#  video_url     :string
+#  provider_name :string
+#  author        :string
+#  author_url    :string
+#  thumbnail_url :string
+#  description   :string
+#  html          :string
+#  uploaded_at   :string
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#
+
 class Video < ApplicationRecord
   has_many :vehicle_config_videos
   has_many :vehicle_configs, :through => :vehicle_config_videos
-  has_many :video_hardware
+  has_many :video_hardware_items
+  has_many :hardware_items, :through => :video_hardware_items
   validates_uniqueness_of :video_url
   before_save :embed
   # has_many :hardware_items, :through => :video_hardware

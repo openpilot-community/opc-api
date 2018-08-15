@@ -30,6 +30,6 @@
 JsonapiSpecHelpers::Payload.register(:vehicle_config_video) do
   key(:vehicle_config_id, Integer)
   key(:video_id, Integer)
-  key(:created_at, Datetime)
-  key(:updated_at, Datetime)
+  key(:created_at, String)
+  key(:updated_at, String)
 end

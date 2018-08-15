@@ -31,6 +31,6 @@ JsonapiSpecHelpers::Payload.register(:vehicle_config_type) do
   key(:name, String)
   key(:description, String)
   key(:difficulty_level, Integer)
-  key(:created_at, Datetime)
-  key(:updated_at, Datetime)
+  key(:created_at, String)
+  key(:updated_at, String)
 end

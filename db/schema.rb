@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_10_160842) do
+ActiveRecord::Schema.define(version: 2018_08_15_151832) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,7 +52,9 @@ ActiveRecord::Schema.define(version: 2018_08_10_160842) do
     t.string "install_guide_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "slug"
     t.index ["hardware_type_id"], name: "index_hardware_items_on_hardware_type_id"
+    t.index ["slug"], name: "index_hardware_items_on_slug", unique: true
   end
 
   create_table "hardware_types", force: :cascade do |t|
@@ -60,6 +62,8 @@ ActiveRecord::Schema.define(version: 2018_08_10_160842) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "slug"
+    t.index ["slug"], name: "index_hardware_types_on_slug", unique: true
   end
 
   create_table "logins", force: :cascade do |t|
@@ -75,6 +79,24 @@ ActiveRecord::Schema.define(version: 2018_08_10_160842) do
     t.index ["user_id"], name: "index_logins_on_user_id"
   end
 
+  create_table "modification_hardware_type_hardware_items", force: :cascade do |t|
+    t.bigint "modification_hardware_type_id"
+    t.bigint "hardware_item_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["hardware_item_id"], name: "ix_mht_hi_hi"
+    t.index ["modification_hardware_type_id"], name: "ix_mht_hi_ht"
+  end
+
+  create_table "modification_hardware_types", force: :cascade do |t|
+    t.bigint "modification_id"
+    t.bigint "hardware_type_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["hardware_type_id"], name: "index_modification_hardware_types_on_hardware_type_id"
+    t.index ["modification_id"], name: "index_modification_hardware_types_on_modification_id"
+  end
+
   create_table "modifications", force: :cascade do |t|
     t.string "name"
     t.string "summary"
@@ -82,6 +104,8 @@ ActiveRecord::Schema.define(version: 2018_08_10_160842) do
     t.text "instructions"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "slug"
+    t.index ["slug"], name: "index_modifications_on_slug", unique: true
   end
 
   create_table "pull_requests", force: :cascade do |t|
@@ -130,6 +154,8 @@ ActiveRecord::Schema.define(version: 2018_08_10_160842) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "slug"
+    t.index ["slug"], name: "index_vehicle_capabilities_on_slug", unique: true
   end
 
   create_table "vehicle_config_capabilities", force: :cascade do |t|
@@ -148,13 +174,22 @@ ActiveRecord::Schema.define(version: 2018_08_10_160842) do
     t.index ["vehicle_config_type_id"], name: "index_vehicle_config_capabilities_on_vehicle_config_type_id"
   end
 
-  create_table "vehicle_config_hardwares", force: :cascade do |t|
+  create_table "vehicle_config_hardware_items", force: :cascade do |t|
     t.bigint "vehicle_config_id"
     t.bigint "hardware_item_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["hardware_item_id"], name: "index_vehicle_config_hardwares_on_hardware_item_id"
-    t.index ["vehicle_config_id"], name: "index_vehicle_config_hardwares_on_vehicle_config_id"
+    t.index ["hardware_item_id"], name: "index_vehicle_config_hardware_items_on_hardware_item_id"
+    t.index ["vehicle_config_id"], name: "index_vehicle_config_hardware_items_on_vehicle_config_id"
+  end
+
+  create_table "vehicle_config_modifications", force: :cascade do |t|
+    t.bigint "vehicle_config_id"
+    t.bigint "modification_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["modification_id"], name: "index_vehicle_config_modifications_on_modification_id"
+    t.index ["vehicle_config_id"], name: "index_vehicle_config_modifications_on_vehicle_config_id"
   end
 
   create_table "vehicle_config_pull_requests", force: :cascade do |t|
@@ -206,6 +241,8 @@ ActiveRecord::Schema.define(version: 2018_08_10_160842) do
     t.integer "difficulty_level"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "slug"
+    t.index ["slug"], name: "index_vehicle_config_types_on_slug", unique: true
   end
 
   create_table "vehicle_config_videos", force: :cascade do |t|
@@ -244,6 +281,8 @@ ActiveRecord::Schema.define(version: 2018_08_10_160842) do
     t.bigint "vehicle_make_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "slug"
+    t.index ["slug"], name: "index_vehicle_make_packages_on_slug", unique: true
     t.index ["vehicle_make_id"], name: "index_vehicle_make_packages_on_vehicle_make_id"
   end
 
@@ -283,6 +322,8 @@ ActiveRecord::Schema.define(version: 2018_08_10_160842) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "slug"
+    t.index ["slug"], name: "index_vehicle_option_availabilities_on_slug", unique: true
   end
 
   create_table "vehicle_options", force: :cascade do |t|
@@ -294,6 +335,8 @@ ActiveRecord::Schema.define(version: 2018_08_10_160842) do
     t.text "what_it_does"
     t.text "what_it_doesnt_do"
     t.string "reference_url"
+    t.string "slug"
+    t.index ["slug"], name: "index_vehicle_options_on_slug", unique: true
   end
 
   create_table "vehicle_trims", force: :cascade do |t|
@@ -391,13 +434,13 @@ ActiveRecord::Schema.define(version: 2018_08_10_160842) do
     t.index ["transaction_id"], name: "index_versions_on_transaction_id"
   end
 
-  create_table "video_hardwares", force: :cascade do |t|
+  create_table "video_hardware_items", force: :cascade do |t|
     t.bigint "video_id"
     t.bigint "hardware_item_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["hardware_item_id"], name: "index_video_hardwares_on_hardware_item_id"
-    t.index ["video_id"], name: "index_video_hardwares_on_video_id"
+    t.index ["hardware_item_id"], name: "index_video_hardware_items_on_hardware_item_id"
+    t.index ["video_id"], name: "index_video_hardware_items_on_video_id"
   end
 
   create_table "videos", force: :cascade do |t|
@@ -429,10 +472,16 @@ ActiveRecord::Schema.define(version: 2018_08_10_160842) do
   end
 
   add_foreign_key "hardware_items", "hardware_types"
+  add_foreign_key "modification_hardware_type_hardware_items", "hardware_items"
+  add_foreign_key "modification_hardware_type_hardware_items", "modification_hardware_types"
+  add_foreign_key "modification_hardware_types", "hardware_types"
+  add_foreign_key "modification_hardware_types", "modifications"
   add_foreign_key "vehicle_config_capabilities", "vehicle_capabilities"
   add_foreign_key "vehicle_config_capabilities", "vehicle_configs"
-  add_foreign_key "vehicle_config_hardwares", "hardware_items"
-  add_foreign_key "vehicle_config_hardwares", "vehicle_configs"
+  add_foreign_key "vehicle_config_hardware_items", "hardware_items"
+  add_foreign_key "vehicle_config_hardware_items", "vehicle_configs"
+  add_foreign_key "vehicle_config_modifications", "modifications"
+  add_foreign_key "vehicle_config_modifications", "vehicle_configs"
   add_foreign_key "vehicle_config_pull_requests", "pull_requests"
   add_foreign_key "vehicle_config_pull_requests", "vehicle_configs"
   add_foreign_key "vehicle_config_repositories", "repositories"
@@ -457,6 +506,6 @@ ActiveRecord::Schema.define(version: 2018_08_10_160842) do
   add_foreign_key "vehicle_models", "vehicle_makes"
   add_foreign_key "vehicle_trims", "vehicle_makes"
   add_foreign_key "vehicle_trims", "vehicle_models"
-  add_foreign_key "video_hardwares", "hardware_items"
-  add_foreign_key "video_hardwares", "videos"
+  add_foreign_key "video_hardware_items", "hardware_items"
+  add_foreign_key "video_hardware_items", "videos"
 end

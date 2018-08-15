@@ -30,8 +30,8 @@
 JsonapiSpecHelpers::Payload.register(:vehicle_option) do
   key(:name, String)
   key(:description, String)
-  key(:created_at, Datetime)
-  key(:updated_at, Datetime)
+  key(:created_at, String)
+  key(:updated_at, String)
   key(:alternate_name, String)
   key(:what_it_does, String)
   key(:what_it_doesnt_do, String)

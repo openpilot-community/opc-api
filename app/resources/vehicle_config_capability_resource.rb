@@ -6,6 +6,9 @@ class VehicleConfigCapabilityResource < ApplicationResource
   type :vehicle_config_capabilities
   # Associate to a Model object so we know how to persist.
   model VehicleConfigCapability
+
+  allow_filter :vehicle_config_id
+  allow_filter :vehicle_capability_id
   # Customize your resource here. Some common examples:
   #
   # === Allow ?filter[name] query parameter ===
@@ -33,6 +36,15 @@ class VehicleConfigCapabilityResource < ApplicationResource
   #   ... code ...
   # end
   #
+  belongs_to :vehicle_config,
+    scope: -> { VehicleConfig.all },
+    resource: VehicleConfigResource,
+    foreign_key: :vehicle_config_id
+
+  belongs_to :vehicle_capability,
+    scope: -> { VehicleCapability.all },
+    resource: VehicleCapabilityResource,
+    foreign_key: :vehicle_capability_id
   # === Change default page size ===
   # default_page_size(10)
   #

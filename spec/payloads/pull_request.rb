@@ -43,6 +43,6 @@ JsonapiSpecHelpers::Payload.register(:pull_request) do
   key(:head, String)
   key(:author_association, String)
   key(:html_url, String)
-  key(:created_at, Datetime)
-  key(:updated_at, Datetime)
+  key(:created_at, String)
+  key(:updated_at, String)
 end
