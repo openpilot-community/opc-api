@@ -20,4 +20,14 @@ class SerializableModification < JSONAPI::Serializable::Resource
   attribute :slug
   attribute :created_at
   attribute :updated_at
+
+  has_many :modification_hardware_types do
+    data do
+      @object.modification_hardware_types
+    end
+
+    link :related do
+      @url_helpers.modification_hardware_types_url(filter: { modification_id: @object.id })
+    end
+  end
 end

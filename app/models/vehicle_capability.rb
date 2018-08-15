@@ -12,6 +12,9 @@
 class VehicleCapability < ApplicationRecord
   extend FriendlyId
   friendly_id :name, use: :slugged
+  amoeba do
+    enable
+  end
   has_many :vehicle_config_capabilities
   has_many :vehicle_config, :through => :vehicle_config_capabilities
 end

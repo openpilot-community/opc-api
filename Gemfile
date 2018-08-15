@@ -29,6 +29,8 @@ gem 'rails_admin_clone'
 gem 'rails_admin', '~> 1.3'
 gem 'jwt'
 gem 'rails_api_auth'
+gem 'amoeba'
+gem 'awesome_nested_set'
 gem 'friendly_id', '~> 5.2.0' # Note: You MUST use 5.0.0 or greater for Rails 4.0+
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem 'rack-cors'

@@ -1,11 +1,14 @@
 # Define how to query and persist a given model.
 # Further Resource documentation: https://jsonapi-suite.github.io/jsonapi_compliable/JsonapiCompliable/Resource.html
-class ModificationResource < ApplicationResource
+class ModificationHardwareTypeResource < ApplicationResource
   # Used for associating this resource with a given input.
   # This should match the 'type' in the corresponding serializer.
-  type :modifications
+  type :modification_hardware_types
   # Associate to a Model object so we know how to persist.
-  model Modification
+  model ModificationHardwareType
+
+  allow_filter :modification_id
+  allow_filter :hardware_type_id
   # Customize your resource here. Some common examples:
   #
   # === Allow ?filter[name] query parameter ===
@@ -24,11 +27,21 @@ class ModificationResource < ApplicationResource
   # sort do |scope, att, dir|
   #   ... code ...
   # end
-  has_many :modification_hardware_types,
-    scope: -> { ModificationHardwareType.all },
-    resource: ModificationHardwareTypeResource,
-    foreign_key: :modification_id
   #
+  belongs_to :modification,
+    scope: -> { Modification.all },
+    resource: ModificationResource,
+    foreign_key: :modification_id
+
+  belongs_to :hardware_type,
+    scope: -> { HardwareType.all },
+    resource: HardwareTypeResource,
+    foreign_key: :hardware_type_id
+
+  has_many :modification_hardware_type_hardware_items,
+    scope: -> { ModificationHardwareTypeHardwareItem.all },
+    resource: ModificationHardwareTypeHardwareItemResource,
+    foreign_key: :modification_hardware_type_id
   # === Change default sort ===
   # default_sort([{ title: :asc }])
   #

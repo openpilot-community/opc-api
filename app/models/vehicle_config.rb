@@ -21,6 +21,7 @@
 class VehicleConfig < ApplicationRecord
   include VehicleConfigAdmin
   extend FriendlyId
+  acts_as_nested_set
   scope :honda, -> { includes(:vehicle_make, :vehicle_model, :vehicle_config_type).where("vehicle_makes.name = 'Honda'").order("vehicle_models.name, year, vehicle_config_types.difficulty_level") }
   scope :toyota, -> { includes(:vehicle_make, :vehicle_model).where("vehicle_makes.name = 'Toyota'").order("vehicle_models.name, year") }
   # default_scope { includes(:vehicle_make,:vehicle_model).order("vehicle_make.name, vehicle_model.name, year") }
@@ -39,21 +40,44 @@ class VehicleConfig < ApplicationRecord
   before_save :set_title
 
   # MODIFICATIONS
-  has_many :vehicle_config_modifications
+  has_many :vehicle_config_modifications, dependent: :destroy
   has_many :modifications, :through => :vehicle_config_modifications
 
   # has_many :vehicle_config_hardware_items
   # has_many :hardware_items, :through => :vehicle_config_hardware_items
 
   # CAPABILITIES
-  has_many :vehicle_config_capabilities
+  has_many :vehicle_config_capabilities, dependent: :destroy
   has_many :vehicle_capabilities, :through => :vehicle_config_capabilities
 
   # OPTIONS
   # has_many :vehicle_model_options, :through => :vehicle_model
   # has_many :vehicle_options, :through => :vehicle_model_options
   
-  has_many :vehicle_config_videos
+  has_many :vehicle_config_videos, dependent: :destroy
+
+  # FORK CONFIGURATION
+  amoeba do
+    enable
+    include_association :vehicle_config_capabilities
+    include_association :vehicle_capabilities
+    include_association :vehicle_config_modifications
+    include_association :modifications
+    nullify :slug
+    customize(lambda { |original_post,new_post|
+      next_difficulty_level = original_post.vehicle_config_type.difficulty_level+1
+      max_difficulty_level = VehicleConfigType.maximum("difficulty_level")
+      if next_difficulty_level <= max_difficulty_level
+        new_config_type = VehicleConfigType.find_by(:difficulty_level => next_difficulty_level)
+      else
+        new_config_type = VehicleConfigType.find_by(:difficulty_level => max_difficulty_level)
+      end
+      new_post.vehicle_config_type = new_config_type
+    })
+    customize(lambda { |original_post,new_post|
+      new_post.parent = original_post
+    })
+  end
 
   def name
     new_name = "Untitled"
@@ -68,12 +92,7 @@ class VehicleConfig < ApplicationRecord
   end
 
   def fork_config
-    self.dup.tap do |config|
-      config.parent = self
-      config.slug   = nil
-      config.created_at = Time.now
-      config.updated_at = Time.now
-    end
+    self.amoeba_dup
   end
 
   def diff_from(veh_conf)
@@ -89,8 +108,6 @@ class VehicleConfig < ApplicationRecord
   def name_for_slug
     if vehicle_config_type && vehicle_make && vehicle_model
       "#{id} #{year} #{vehicle_make.name} #{vehicle_model.name} #{vehicle_config_type.name}"
-    else
-      "Untitled"
     end
   end
 

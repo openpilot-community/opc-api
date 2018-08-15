@@ -125,24 +125,24 @@ class SerializableVehicleConfig < JSONAPI::Serializable::Resource
     end
   end
 
-  # has_many :vehicle_config_modifications do
-  #   data do
-  #     @object.vehicle_config_modifications
-  #   end
+  has_many :vehicle_config_modifications do
+    data do
+      @object.vehicle_config_modifications
+    end
 
-  #   link :related do
-  #     @url_helpers.vehicle_config_modifications_url(filter: { vehicle_config_id: @object.id })
-  #   end
-  # end
-  # has_many :vehicle_config_videos do
-  #   data do
-  #     @object.vehicle_config_videos
-  #   end
+    link :related do
+      @url_helpers.vehicle_config_modifications_url(filter: { vehicle_config_id: @object.id })
+    end
+  end
+  has_many :vehicle_config_videos do
+    data do
+      @object.vehicle_config_videos
+    end
 
-  #   link :related do
-  #     @url_helpers.vehicle_config_videos_url(filter: { vehicle_config_id: @object.id })
-  #   end
-  # end
+    link :related do
+      @url_helpers.vehicle_config_videos_url(filter: { vehicle_config_id: @object.id })
+    end
+  end
   # has_many :vehicle_config_hardware_items do
   #   data do
   #     @object.vehicle_config_hardware_items

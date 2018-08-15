@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_15_151832) do
+ActiveRecord::Schema.define(version: 2018_08_15_172659) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -266,8 +266,16 @@ ActiveRecord::Schema.define(version: 2018_08_15_151832) do
     t.datetime "updated_at", null: false
     t.bigint "vehicle_make_package_id"
     t.string "slug"
-    t.integer "parent_id"
     t.bigint "vehicle_config_type_id"
+    t.integer "parent_id"
+    t.integer "lft"
+    t.integer "rgt"
+    t.integer "depth"
+    t.integer "children_count"
+    t.index ["depth"], name: "index_vehicle_configs_on_depth"
+    t.index ["lft"], name: "index_vehicle_configs_on_lft"
+    t.index ["parent_id"], name: "index_vehicle_configs_on_parent_id"
+    t.index ["rgt"], name: "index_vehicle_configs_on_rgt"
     t.index ["vehicle_config_status_id"], name: "index_vehicle_configs_on_vehicle_config_status_id"
     t.index ["vehicle_config_type_id"], name: "index_vehicle_configs_on_vehicle_config_type_id"
     t.index ["vehicle_make_id"], name: "index_vehicle_configs_on_vehicle_make_id"

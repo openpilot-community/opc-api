@@ -29,7 +29,7 @@ module VehicleConfigAdmin
         sort_by :vehicle_make, :vehicle_model, :year
       end
       clone_config do
-        custom_method :fork_config
+        # custom_method :fork_config
       end
       edit do
         field :parent
@@ -52,8 +52,9 @@ module VehicleConfigAdmin
         field :description
         field :slug
         field :forks
-        field :vehicle_capabilities
         field :vehicle_config_capabilities
+        field :vehicle_capabilities
+        field :vehicle_config_modifications
         field :modifications
         # field :vehicle_config_required_options
         # field :hardware_items

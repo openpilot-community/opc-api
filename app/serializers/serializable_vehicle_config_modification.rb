@@ -13,4 +13,23 @@ class SerializableVehicleConfigModification < JSONAPI::Serializable::Resource
   # attribute :name do
   #   @object.name.upcase
   # end
+
+  belongs_to :vehicle_config do
+    data do
+      @object.vehicle_config
+    end
+
+    link :related do
+      @url_helpers.vehicle_config_url(@object.vehicle_config_id)
+    end
+  end
+  belongs_to :modification do
+    data do
+      @object.modification
+    end
+
+    link :related do
+      @url_helpers.modification_url(@object.modification_id)
+    end
+  end
 end

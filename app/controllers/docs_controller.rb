@@ -50,4 +50,6 @@ class DocsController < ActionController::API
   jsonapi_resource '/v1/videos'
   jsonapi_resource '/v1/video_hardware_items'
   jsonapi_resource '/v1/vehicle_config_modifications'
+  jsonapi_resource '/v1/modification_hardware_types'
+  jsonapi_resource '/v1/modification_hardware_type_hardware_items'
 end
