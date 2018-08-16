@@ -23,16 +23,20 @@ class VehicleConfig < ApplicationRecord
   extend FriendlyId
   acts_as_nested_set
   scope :honda, -> { includes(:vehicle_make, :vehicle_model, :vehicle_config_type).where("vehicle_makes.name = 'Honda'").order("vehicle_models.name, year, vehicle_config_types.difficulty_level") }
+  scope :honda_base, -> { includes(:vehicle_make, :vehicle_model, :vehicle_config_type).where("vehicle_makes.name = 'Honda' AND vehicle_config_types.slug = 'factory'").order("vehicle_models.name, year, vehicle_config_types.difficulty_level") }
+  scope :honda_standard, -> { includes(:vehicle_make, :vehicle_model, :vehicle_config_type).where("vehicle_makes.name = 'Honda' AND vehicle_config_types.slug = 'standard'").order("vehicle_models.name, year, vehicle_config_types.difficulty_level") }
   scope :toyota, -> { includes(:vehicle_make, :vehicle_model).where("vehicle_makes.name = 'Toyota'").order("vehicle_models.name, year") }
+  scope :toyota_base, -> { includes(:vehicle_make, :vehicle_model, :vehicle_config_type).where("vehicle_makes.name = 'Toyota' AND vehicle_config_types.slug = 'factory'").order("vehicle_models.name, year, vehicle_config_types.difficulty_level") }
+  scope :toyota_standard, -> { includes(:vehicle_make, :vehicle_model, :vehicle_config_type).where("vehicle_makes.name = 'Toyota' AND vehicle_config_types.slug = 'standard'").order("vehicle_models.name, year, vehicle_config_types.difficulty_level") }
   # default_scope { includes(:vehicle_make,:vehicle_model).order("vehicle_make.name, vehicle_model.name, year") }
   friendly_id :name_for_slug, use: :slugged
   belongs_to :vehicle_make
   belongs_to :vehicle_model
+  belongs_to :vehicle_trim, :optional => true
   belongs_to :parent, :class_name => "VehicleConfig", :optional => true
   
   has_many :forks, :class_name => "VehicleConfig", :foreign_key => :parent_id
   
-  belongs_to :vehicle_trim, :optional => true
   belongs_to :vehicle_config_status
   belongs_to :vehicle_make_package, :optional => true
 

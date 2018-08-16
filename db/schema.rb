@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_15_172659) do
+ActiveRecord::Schema.define(version: 2018_08_15_234523) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -126,6 +126,19 @@ ActiveRecord::Schema.define(version: 2018_08_15_172659) do
     t.string "html_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "rails_admin_settings", id: :serial, force: :cascade do |t|
+    t.boolean "enabled", default: true
+    t.string "kind", default: "string", null: false
+    t.string "ns", default: "main"
+    t.string "key", null: false
+    t.text "raw"
+    t.string "label"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["key"], name: "index_rails_admin_settings_on_key"
+    t.index ["ns", "key"], name: "index_rails_admin_settings_on_ns_and_key", unique: true
   end
 
   create_table "repositories", force: :cascade do |t|
@@ -347,7 +360,7 @@ ActiveRecord::Schema.define(version: 2018_08_15_172659) do
     t.index ["slug"], name: "index_vehicle_options_on_slug", unique: true
   end
 
-  create_table "vehicle_trims", force: :cascade do |t|
+  create_table "vehicle_specs", force: :cascade do |t|
     t.bigint "vehicle_make_id"
     t.bigint "vehicle_model_id"
     t.string "make_id"
@@ -417,7 +430,15 @@ ActiveRecord::Schema.define(version: 2018_08_15_172659) do
     t.integer "tire_pressure_monitoring_system"
     t.integer "traction_control"
     t.integer "obstacle_detection"
-    t.index ["vehicle_make_id"], name: "index_vehicle_trims_on_vehicle_make_id"
+    t.index ["vehicle_make_id"], name: "index_vehicle_specs_on_vehicle_make_id"
+    t.index ["vehicle_model_id"], name: "index_vehicle_specs_on_vehicle_model_id"
+  end
+
+  create_table "vehicle_trims", force: :cascade do |t|
+    t.string "name"
+    t.bigint "vehicle_model_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["vehicle_model_id"], name: "index_vehicle_trims_on_vehicle_model_id"
   end
 
@@ -505,14 +526,15 @@ ActiveRecord::Schema.define(version: 2018_08_15_172659) do
   add_foreign_key "vehicle_configs", "vehicle_make_packages"
   add_foreign_key "vehicle_configs", "vehicle_makes"
   add_foreign_key "vehicle_configs", "vehicle_models"
-  add_foreign_key "vehicle_configs", "vehicle_trims"
+  add_foreign_key "vehicle_configs", "vehicle_specs", column: "vehicle_trim_id"
   add_foreign_key "vehicle_make_packages", "vehicle_makes"
   add_foreign_key "vehicle_model_options", "vehicle_makes"
   add_foreign_key "vehicle_model_options", "vehicle_models"
   add_foreign_key "vehicle_model_options", "vehicle_option_availabilities"
   add_foreign_key "vehicle_model_options", "vehicle_options"
   add_foreign_key "vehicle_models", "vehicle_makes"
-  add_foreign_key "vehicle_trims", "vehicle_makes"
+  add_foreign_key "vehicle_specs", "vehicle_makes"
+  add_foreign_key "vehicle_specs", "vehicle_models"
   add_foreign_key "vehicle_trims", "vehicle_models"
   add_foreign_key "video_hardware_items", "hardware_items"
   add_foreign_key "video_hardware_items", "videos"

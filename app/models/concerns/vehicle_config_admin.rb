@@ -5,14 +5,22 @@ module VehicleConfigAdmin
     rails_admin do 
       list do
         items_per_page 100
-        scopes [:honda, :toyota, :unscoped]
+        scopes [:honda, :honda_base, :honda_standard, :toyota, :toyota_base, :toyota_standard, :unscoped]
         field :year
         field :vehicle_make do
+          label "Make"
           # queryable true
           # visible false
           # searchable ["vehicle_make.name"]
         end
         field :vehicle_model do
+          label "Model"
+          # queryable true
+          # visible false
+          # searchable ["vehicle_model.name", "vehicle_model.id"]
+        end
+        field :vehicle_trim do
+          label "Trim"
           # queryable true
           # visible false
           # searchable ["vehicle_model.name", "vehicle_model.id"]
@@ -24,7 +32,9 @@ module VehicleConfigAdmin
         #   #   bindings[:view].tag(:a, href: path, class: "visible-xs-block visible-sm-block visible-md-block visible-lg-block") << bindings[:object].title
         #   # end
         # end
-        field :vehicle_config_type
+        field :vehicle_config_type do
+          label "Type"
+        end
         
         sort_by :vehicle_make, :vehicle_model, :year
       end
@@ -35,7 +45,12 @@ module VehicleConfigAdmin
         field :parent
         field :vehicle_config_type
         field :title
-        field :year
+        field :year do
+          read_only do
+            !bindings[:object].parent.blank?
+          end
+        end
+        
         field :vehicle_make
         field :vehicle_model do
           associated_collection_cache_all false  # REQUIRED if you want to SORT the list as below
@@ -47,7 +62,18 @@ module VehicleConfigAdmin
             }
           end
         end
-        # field :vehicle_trim
+        field :vehicle_trim do
+          associated_collection_cache_all false  # REQUIRED if you want to SORT the list as below
+          associated_collection_scope do
+            vehicle_config = bindings[:object]
+            Proc.new { |scope|
+              scope = scope.where(
+                vehicle_model_id: vehicle_config.vehicle_model_id
+              ).distinct.order(:trim) if vehicle_config.present?
+              # scope = scope.limit(30) # 'order' does not work here
+            }
+          end
+        end
         field :vehicle_config_status
         field :description
         field :slug

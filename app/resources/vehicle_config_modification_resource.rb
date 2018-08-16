@@ -36,7 +36,7 @@ class VehicleConfigModificationResource < ApplicationResource
     scope: -> { VehicleConfig.all },
     resource: VehicleConfigResource,
     foreign_key: :vehicle_config_id
-    
+  
   belongs_to :modification,
     scope: -> { Modification.all },
     resource: ModificationResource,

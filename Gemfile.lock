@@ -245,6 +245,7 @@ GEM
       simple_xlsx_reader (~> 1.0)
     rails_admin_rollincode (1.2.1)
       rails (>= 4.0, < 6)
+    rails_admin_settings (1.5.0)
     rails_api_auth (0.1.0)
       bcrypt (~> 3.1.7)
       httparty (~> 0.13.3)
@@ -377,6 +378,7 @@ DEPENDENCIES
   rails_admin_clone
   rails_admin_import (~> 2.1)
   rails_admin_rollincode (~> 1.0)
+  rails_admin_settings
   rails_api_auth
   rspec-rails (~> 3.5.2)
   seed_dump

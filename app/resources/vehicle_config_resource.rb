@@ -71,8 +71,8 @@ class VehicleConfigResource < ApplicationResource
     resource: VehicleConfigVideoResource,
     foreign_key: :vehicle_config_id
   
-  has_many :vehicle_config_hardware_items,
-    scope: -> { VehicleConfigHardwareItem.all },
-    resource: VehicleConfigHardwareItemResource,
-    foreign_key: :vehicle_config_id
+  # has_many :vehicle_config_hardware_items,
+  #   scope: -> { VehicleConfigHardwareItem.all },
+  #   resource: VehicleConfigHardwareItemResource,
+  #   foreign_key: :vehicle_config_id
 end
