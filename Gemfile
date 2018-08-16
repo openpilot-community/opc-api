@@ -21,17 +21,18 @@ gem 'puma', '~> 3.11'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
-# gem 'better_errors'
+gem 'better_errors'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'hashdiff'
 gem 'amoeba'
 gem 'awesome_nested_set'
-gem 'rails_admin', '~> 1.3'
-gem 'rails_admin_clone'
-gem 'rails_admin_rollincode', '~> 1.0'
-gem "rails_admin_import", "~> 2.1"
-gem 'rails_admin_settings'
+gem 'trestle'
+# gem 'rails_admin', '~> 1.3'
+# gem 'rails_admin_clone'
+# gem 'rails_admin_rollincode', '~> 1.0'
+# gem "rails_admin_import", "~> 2.1"
+# gem 'rails_admin_settings'
 gem 'jwt'
 gem 'rails_api_auth'
 gem 'friendly_id', '~> 5.2.0' # Note: You MUST use 5.0.0 or greater for Rails 4.0+

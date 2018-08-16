@@ -19,7 +19,6 @@
 #
 
 class VehicleConfig < ApplicationRecord
-  include VehicleConfigAdmin
   extend FriendlyId
   acts_as_nested_set
   scope :honda, -> { includes(:vehicle_make, :vehicle_model, :vehicle_config_type).where("vehicle_makes.name = 'Honda'").order("vehicle_models.name, year, vehicle_config_types.difficulty_level") }

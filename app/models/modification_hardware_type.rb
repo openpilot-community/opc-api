@@ -1,5 +1,5 @@
 class ModificationHardwareType < ApplicationRecord
-  include ModificationHardwareTypeAdmin
+  # include ModificationHardwareTypeAdmin
   belongs_to :modification
   belongs_to :hardware_type
   has_many :modification_hardware_type_hardware_items

@@ -16,7 +16,7 @@
 #
 
 class VehicleConfigCapability < ApplicationRecord
-  include VehicleConfigCapabilityAdmin
+  # include VehicleConfigCapabilityAdmin
   belongs_to :vehicle_config
   # belongs_to :vehicle_config_type
   belongs_to :vehicle_capability

@@ -12,7 +12,7 @@
 #
 
 class Modification < ApplicationRecord
-  include ModificationAdmin
+  # include ModificationAdmin
   extend FriendlyId
   friendly_id :name, use: :slugged
   has_many :modification_hardware_types
