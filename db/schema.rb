@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_15_234523) do
+ActiveRecord::Schema.define(version: 2018_08_18_032041) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -361,8 +361,6 @@ ActiveRecord::Schema.define(version: 2018_08_15_234523) do
   end
 
   create_table "vehicle_specs", force: :cascade do |t|
-    t.bigint "vehicle_make_id"
-    t.bigint "vehicle_model_id"
     t.string "make_id"
     t.string "make_display"
     t.string "name"
@@ -430,8 +428,6 @@ ActiveRecord::Schema.define(version: 2018_08_15_234523) do
     t.integer "tire_pressure_monitoring_system"
     t.integer "traction_control"
     t.integer "obstacle_detection"
-    t.index ["vehicle_make_id"], name: "index_vehicle_specs_on_vehicle_make_id"
-    t.index ["vehicle_model_id"], name: "index_vehicle_specs_on_vehicle_model_id"
   end
 
   create_table "vehicle_trims", force: :cascade do |t|
@@ -533,8 +529,6 @@ ActiveRecord::Schema.define(version: 2018_08_15_234523) do
   add_foreign_key "vehicle_model_options", "vehicle_option_availabilities"
   add_foreign_key "vehicle_model_options", "vehicle_options"
   add_foreign_key "vehicle_models", "vehicle_makes"
-  add_foreign_key "vehicle_specs", "vehicle_makes"
-  add_foreign_key "vehicle_specs", "vehicle_models"
   add_foreign_key "vehicle_trims", "vehicle_models"
   add_foreign_key "video_hardware_items", "hardware_items"
   add_foreign_key "video_hardware_items", "videos"

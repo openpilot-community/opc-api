@@ -1,6 +1,5 @@
 module VehicleConfigAdmin
   extend ActiveSupport::Concern
-
   included do
     rails_admin do 
       list do
@@ -38,9 +37,9 @@ module VehicleConfigAdmin
         
         sort_by :vehicle_make, :vehicle_model, :year
       end
-      clone_config do
-        # custom_method :fork_config
-      end
+      # clone_config do
+      #   custom_method :fork_config
+      # end
       edit do
         field :parent
         field :vehicle_config_type
