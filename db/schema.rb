@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_18_032041) do
+ActiveRecord::Schema.define(version: 2018_08_19_212827) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -248,6 +248,15 @@ ActiveRecord::Schema.define(version: 2018_08_18_032041) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "vehicle_config_trims", force: :cascade do |t|
+    t.bigint "vehicle_config_id"
+    t.bigint "vehicle_trim_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["vehicle_config_id"], name: "index_vehicle_config_trims_on_vehicle_config_id"
+    t.index ["vehicle_trim_id"], name: "index_vehicle_config_trims_on_vehicle_trim_id"
+  end
+
   create_table "vehicle_config_types", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -336,6 +345,7 @@ ActiveRecord::Schema.define(version: 2018_08_18_032041) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "slug"
+    t.integer "status", default: 1
     t.index ["vehicle_make_id"], name: "index_vehicle_models_on_vehicle_make_id"
   end
 
@@ -435,6 +445,7 @@ ActiveRecord::Schema.define(version: 2018_08_18_032041) do
     t.bigint "vehicle_model_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "sort_order", default: 0
     t.index ["vehicle_model_id"], name: "index_vehicle_trims_on_vehicle_model_id"
   end
 
@@ -515,6 +526,8 @@ ActiveRecord::Schema.define(version: 2018_08_18_032041) do
   add_foreign_key "vehicle_config_required_options", "vehicle_options"
   add_foreign_key "vehicle_config_required_packages", "vehicle_configs"
   add_foreign_key "vehicle_config_required_packages", "vehicle_make_packages"
+  add_foreign_key "vehicle_config_trims", "vehicle_configs"
+  add_foreign_key "vehicle_config_trims", "vehicle_trims"
   add_foreign_key "vehicle_config_videos", "vehicle_configs"
   add_foreign_key "vehicle_config_videos", "videos"
   add_foreign_key "vehicle_configs", "vehicle_config_statuses"
