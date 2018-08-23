@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_19_212827) do
+ActiveRecord::Schema.define(version: 2018_08_23_122302) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,19 +64,6 @@ ActiveRecord::Schema.define(version: 2018_08_19_212827) do
     t.datetime "updated_at", null: false
     t.string "slug"
     t.index ["slug"], name: "index_hardware_types_on_slug", unique: true
-  end
-
-  create_table "logins", force: :cascade do |t|
-    t.string "identification", null: false
-    t.string "password_digest"
-    t.string "oauth2_token", null: false
-    t.string "uid"
-    t.string "single_use_oauth2_token"
-    t.bigint "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "provider"
-    t.index ["user_id"], name: "index_logins_on_user_id"
   end
 
   create_table "modification_hardware_type_hardware_items", force: :cascade do |t|
@@ -150,16 +137,6 @@ ActiveRecord::Schema.define(version: 2018_08_19_212827) do
     t.string "url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "users", force: :cascade do |t|
-    t.string "username"
-    t.string "email"
-    t.string "slack_username"
-    t.string "github_username"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "avatar_url"
   end
 
   create_table "vehicle_capabilities", force: :cascade do |t|
@@ -294,6 +271,7 @@ ActiveRecord::Schema.define(version: 2018_08_19_212827) do
     t.integer "rgt"
     t.integer "depth"
     t.integer "children_count"
+    t.integer "year_end"
     t.index ["depth"], name: "index_vehicle_configs_on_depth"
     t.index ["lft"], name: "index_vehicle_configs_on_lft"
     t.index ["parent_id"], name: "index_vehicle_configs_on_parent_id"
@@ -440,12 +418,38 @@ ActiveRecord::Schema.define(version: 2018_08_19_212827) do
     t.integer "obstacle_detection"
   end
 
+  create_table "vehicle_trim_style_specs", force: :cascade do |t|
+    t.bigint "vehicle_trim_style_id"
+    t.string "name"
+    t.string "value"
+    t.string "inclusion", default: "standard"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["vehicle_trim_style_id"], name: "index_vehicle_trim_style_specs_on_vehicle_trim_style_id"
+  end
+
+  create_table "vehicle_trim_styles", force: :cascade do |t|
+    t.bigint "vehicle_trim_id"
+    t.string "name"
+    t.string "inventory_prices"
+    t.string "mpg"
+    t.string "engine"
+    t.string "trans"
+    t.string "drive"
+    t.string "colors"
+    t.string "seats"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["vehicle_trim_id"], name: "index_vehicle_trim_styles_on_vehicle_trim_id"
+  end
+
   create_table "vehicle_trims", force: :cascade do |t|
     t.string "name"
     t.bigint "vehicle_model_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "sort_order", default: 0
+    t.integer "year"
     t.index ["vehicle_model_id"], name: "index_vehicle_trims_on_vehicle_model_id"
   end
 
@@ -542,6 +546,8 @@ ActiveRecord::Schema.define(version: 2018_08_19_212827) do
   add_foreign_key "vehicle_model_options", "vehicle_option_availabilities"
   add_foreign_key "vehicle_model_options", "vehicle_options"
   add_foreign_key "vehicle_models", "vehicle_makes"
+  add_foreign_key "vehicle_trim_style_specs", "vehicle_trim_styles"
+  add_foreign_key "vehicle_trim_styles", "vehicle_trims"
   add_foreign_key "vehicle_trims", "vehicle_models"
   add_foreign_key "video_hardware_items", "hardware_items"
   add_foreign_key "video_hardware_items", "videos"
