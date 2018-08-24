@@ -13,5 +13,6 @@
 #
 
 class User < ApplicationRecord
-  has_one :login
+  # has_one :login
+  belongs_to :user_role, :optional => true
 end

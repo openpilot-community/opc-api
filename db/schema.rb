@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_23_233130) do
+ActiveRecord::Schema.define(version: 2018_08_24_152409) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -160,6 +160,13 @@ ActiveRecord::Schema.define(version: 2018_08_23_233130) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "user_roles", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -171,8 +178,10 @@ ActiveRecord::Schema.define(version: 2018_08_23_233130) do
     t.string "name"
     t.string "slack_username"
     t.string "github_username"
+    t.bigint "user_role_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["user_role_id"], name: "index_users_on_user_role_id"
   end
 
   create_table "vehicle_capabilities", force: :cascade do |t|
@@ -553,6 +562,7 @@ ActiveRecord::Schema.define(version: 2018_08_23_233130) do
   add_foreign_key "modification_hardware_type_hardware_items", "modification_hardware_types"
   add_foreign_key "modification_hardware_types", "hardware_types"
   add_foreign_key "modification_hardware_types", "modifications"
+  add_foreign_key "users", "user_roles"
   add_foreign_key "vehicle_config_capabilities", "vehicle_capabilities"
   add_foreign_key "vehicle_config_capabilities", "vehicle_configs"
   add_foreign_key "vehicle_config_hardware_items", "hardware_items"
