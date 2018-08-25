@@ -12,7 +12,7 @@
 
 class VehicleMake < ApplicationRecord
   extend FriendlyId
-  friendly_id :name_for_slug, use: :slugged
+  friendly_id :name, use: :slugged
   has_paper_trail
   
   has_many :vehicle_models
@@ -25,9 +25,7 @@ class VehicleMake < ApplicationRecord
     # left_outer_joins(:vehicle_configs).where.not(vehicle_configs: {id: nil})
   end
   
-  def name_for_slug
-    "#{id} #{name}"
-  end
+
   # def to_param
   #   slug
   # end
