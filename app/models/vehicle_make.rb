@@ -22,7 +22,6 @@ class VehicleMake < ApplicationRecord
 
   def vehicle_models_with_configs
     with_configs.vehicle_models.with_configs
-    # left_outer_joins(:vehicle_configs).where.not(vehicle_configs: {id: nil})
   end
   
 
