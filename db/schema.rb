@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_26_002105) do
+ActiveRecord::Schema.define(version: 2018_08_26_152135) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -218,11 +218,12 @@ ActiveRecord::Schema.define(version: 2018_08_26_002105) do
     t.integer "kph"
     t.integer "timeout"
     t.boolean "confirmed"
-    t.integer "confirmed_by"
     t.text "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "vehicle_config_type_id"
+    t.bigint "confirmed_by_id"
+    t.index ["confirmed_by_id"], name: "index_vehicle_config_capabilities_on_confirmed_by_id"
     t.index ["vehicle_capability_id"], name: "index_vehicle_config_capabilities_on_vehicle_capability_id"
     t.index ["vehicle_config_id"], name: "index_vehicle_config_capabilities_on_vehicle_config_id"
     t.index ["vehicle_config_type_id"], name: "index_vehicle_config_capabilities_on_vehicle_config_type_id"
@@ -583,6 +584,7 @@ ActiveRecord::Schema.define(version: 2018_08_26_002105) do
   add_foreign_key "modification_hardware_types", "hardware_types"
   add_foreign_key "modification_hardware_types", "modifications"
   add_foreign_key "users", "user_roles"
+  add_foreign_key "vehicle_config_capabilities", "users", column: "confirmed_by_id"
   add_foreign_key "vehicle_config_capabilities", "vehicle_capabilities"
   add_foreign_key "vehicle_config_capabilities", "vehicle_configs"
   add_foreign_key "vehicle_config_hardware_items", "hardware_items"
