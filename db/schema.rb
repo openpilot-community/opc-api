@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_25_150900) do
+ActiveRecord::Schema.define(version: 2018_08_26_002105) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,6 +55,17 @@ ActiveRecord::Schema.define(version: 2018_08_25_150900) do
     t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
     t.index ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id"
     t.index ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type"
+  end
+
+  create_table "guides", force: :cascade do |t|
+    t.string "title"
+    t.text "markdown"
+    t.text "markup"
+    t.string "slug"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_guides_on_user_id"
   end
 
   create_table "hardware_items", force: :cascade do |t|
@@ -156,6 +167,14 @@ ActiveRecord::Schema.define(version: 2018_08_25_150900) do
     t.string "owner_avatar_url"
     t.string "owner_url"
     t.string "url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "tools", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.text "url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -557,6 +576,7 @@ ActiveRecord::Schema.define(version: 2018_08_25_150900) do
     t.index ["voter_id", "voter_type", "vote_scope"], name: "index_votes_on_voter_id_and_voter_type_and_vote_scope"
   end
 
+  add_foreign_key "guides", "users"
   add_foreign_key "hardware_items", "hardware_types"
   add_foreign_key "modification_hardware_type_hardware_items", "hardware_items"
   add_foreign_key "modification_hardware_type_hardware_items", "modification_hardware_types"
