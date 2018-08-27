@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_26_152135) do
+ActiveRecord::Schema.define(version: 2018_08_27_020528) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -169,6 +169,14 @@ ActiveRecord::Schema.define(version: 2018_08_26_152135) do
     t.string "url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "repository_branches", force: :cascade do |t|
+    t.string "name"
+    t.bigint "repository_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["repository_id"], name: "index_repository_branches_on_repository_id"
   end
 
   create_table "tools", force: :cascade do |t|
@@ -583,6 +591,7 @@ ActiveRecord::Schema.define(version: 2018_08_26_152135) do
   add_foreign_key "modification_hardware_type_hardware_items", "modification_hardware_types"
   add_foreign_key "modification_hardware_types", "hardware_types"
   add_foreign_key "modification_hardware_types", "modifications"
+  add_foreign_key "repository_branches", "repositories"
   add_foreign_key "users", "user_roles"
   add_foreign_key "vehicle_config_capabilities", "users", column: "confirmed_by_id"
   add_foreign_key "vehicle_config_capabilities", "vehicle_capabilities"
