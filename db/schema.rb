@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_27_020528) do
+ActiveRecord::Schema.define(version: 2018_08_27_022242) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -269,6 +269,8 @@ ActiveRecord::Schema.define(version: 2018_08_27_020528) do
     t.bigint "repository_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "repository_branch_id"
+    t.index ["repository_branch_id"], name: "index_vehicle_config_repositories_on_repository_branch_id"
     t.index ["repository_id"], name: "index_vehicle_config_repositories_on_repository_id"
     t.index ["vehicle_config_id"], name: "index_vehicle_config_repositories_on_vehicle_config_id"
   end
@@ -603,6 +605,7 @@ ActiveRecord::Schema.define(version: 2018_08_27_020528) do
   add_foreign_key "vehicle_config_pull_requests", "pull_requests"
   add_foreign_key "vehicle_config_pull_requests", "vehicle_configs"
   add_foreign_key "vehicle_config_repositories", "repositories"
+  add_foreign_key "vehicle_config_repositories", "repository_branches"
   add_foreign_key "vehicle_config_repositories", "vehicle_configs"
   add_foreign_key "vehicle_config_required_options", "vehicle_configs"
   add_foreign_key "vehicle_config_required_options", "vehicle_options"
