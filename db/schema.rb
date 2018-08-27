@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_27_022242) do
+ActiveRecord::Schema.define(version: 2018_08_27_165810) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -357,6 +357,7 @@ ActiveRecord::Schema.define(version: 2018_08_27_022242) do
     t.index ["vehicle_make_package_id"], name: "index_vehicle_configs_on_vehicle_make_package_id"
     t.index ["vehicle_model_id"], name: "index_vehicle_configs_on_vehicle_model_id"
     t.index ["vehicle_trim_id"], name: "index_vehicle_configs_on_vehicle_trim_id"
+    t.index ["year", "year_end", "vehicle_make_id", "vehicle_model_id", "vehicle_config_type_id"], name: "ix_uniq_vehicle", unique: true
   end
 
   create_table "vehicle_make_packages", force: :cascade do |t|
