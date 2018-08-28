@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_27_182703) do
+ActiveRecord::Schema.define(version: 2018_08_28_023414) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -347,6 +347,7 @@ ActiveRecord::Schema.define(version: 2018_08_27_182703) do
     t.integer "depth"
     t.integer "children_count"
     t.integer "year_end"
+    t.integer "trim_styles_count", default: 0
     t.index ["depth"], name: "index_vehicle_configs_on_depth"
     t.index ["lft"], name: "index_vehicle_configs_on_lft"
     t.index ["parent_id"], name: "index_vehicle_configs_on_parent_id"
