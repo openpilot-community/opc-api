@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_29_022008) do
+ActiveRecord::Schema.define(version: 2018_08_29_124617) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -369,6 +369,23 @@ ActiveRecord::Schema.define(version: 2018_08_29_022008) do
     t.index ["year", "year_end", "vehicle_make_id", "vehicle_model_id", "vehicle_config_type_id"], name: "ix_uniq_vehicle", unique: true
   end
 
+  create_table "vehicle_lookups", force: :cascade do |t|
+    t.integer "year"
+    t.bigint "vehicle_make_id", null: false
+    t.bigint "vehicle_model_id", null: false
+    t.bigint "vehicle_config_id"
+    t.bigint "user_id"
+    t.integer "lookup_count", default: 0, null: false
+    t.string "slug", null: false
+    t.boolean "refreshing", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_vehicle_lookups_on_user_id"
+    t.index ["vehicle_config_id"], name: "index_vehicle_lookups_on_vehicle_config_id"
+    t.index ["vehicle_make_id"], name: "index_vehicle_lookups_on_vehicle_make_id"
+    t.index ["vehicle_model_id"], name: "index_vehicle_lookups_on_vehicle_model_id"
+  end
+
   create_table "vehicle_make_packages", force: :cascade do |t|
     t.string "name"
     t.bigint "vehicle_make_id"
@@ -631,6 +648,10 @@ ActiveRecord::Schema.define(version: 2018_08_29_022008) do
   add_foreign_key "vehicle_configs", "vehicle_makes"
   add_foreign_key "vehicle_configs", "vehicle_models"
   add_foreign_key "vehicle_configs", "vehicle_specs", column: "vehicle_trim_id"
+  add_foreign_key "vehicle_lookups", "users"
+  add_foreign_key "vehicle_lookups", "vehicle_configs"
+  add_foreign_key "vehicle_lookups", "vehicle_makes"
+  add_foreign_key "vehicle_lookups", "vehicle_models"
   add_foreign_key "vehicle_make_packages", "vehicle_makes"
   add_foreign_key "vehicle_model_options", "vehicle_makes"
   add_foreign_key "vehicle_model_options", "vehicle_models"

@@ -16,13 +16,21 @@
 #
 
 class VehicleConfigCapability < ApplicationRecord
-  include VehicleConfigCapabilityAdmin
+  # include VehicleConfigCapabilityAdmin
   belongs_to :vehicle_config
-  # belongs_to :vehicle_config_type
+  belongs_to :vehicle_config_type
   belongs_to :vehicle_capability
+  before_save :set_capability_usage
   amoeba do
     enable
   end
+
+  def set_capability_usage
+    usage_count = VehicleConfigCapabilities.where(vehicle_capability: vehicle_capability.id).count
+    byebug
+    VehicleCapability.find(vehicle_capability.id).update_attributes(vehicle_config_count: ).count)
+  end
+
   def name
     if (vehicle_config && vehicle_capability)
       "#{vehicle_config.title} / #{vehicle_capability.name}"
