@@ -34,9 +34,9 @@ class VehicleConfig < ApplicationRecord
   belongs_to :vehicle_make
   belongs_to :vehicle_model
   belongs_to :vehicle_trim, :optional => true
-  belongs_to :parent, :class_name => "VehicleConfig", :optional => true
+  # belongs_to :parent, :class_name => "VehicleConfig", :optional => true
   
-  has_many :forks, :class_name => "VehicleConfig", :foreign_key => :parent_id
+  # has_many :forks, :class_name => "VehicleConfig", :foreign_key => :parent_id
   
   belongs_to :vehicle_config_status
   belongs_to :vehicle_make_package, :optional => true
@@ -62,27 +62,27 @@ class VehicleConfig < ApplicationRecord
   has_many :vehicle_config_videos, dependent: :destroy
 
   # FORK CONFIGURATION
-  amoeba do
-    enable
-    include_association :vehicle_config_capabilities
-    include_association :vehicle_capabilities
-    include_association :vehicle_config_modifications
-    include_association :modifications
-    nullify :slug
-    customize(lambda { |original_post,new_post|
-      next_difficulty_level = original_post.vehicle_config_type.difficulty_level+1
-      max_difficulty_level = VehicleConfigType.maximum("difficulty_level")
-      if next_difficulty_level <= max_difficulty_level
-        new_config_type = VehicleConfigType.find_by(:difficulty_level => next_difficulty_level)
-      else
-        new_config_type = VehicleConfigType.find_by(:difficulty_level => max_difficulty_level)
-      end
-      new_post.vehicle_config_type = new_config_type
-    })
-    customize(lambda { |original_post,new_post|
-      new_post.parent = original_post
-    })
-  end
+  # amoeba do
+  #   enable
+  #   include_association :vehicle_config_capabilities
+  #   include_association :vehicle_capabilities
+  #   include_association :vehicle_config_modifications
+  #   include_association :modifications
+  #   nullify :slug
+  #   customize(lambda { |original_post,new_post|
+  #     next_difficulty_level = original_post.vehicle_config_type.difficulty_level+1
+  #     max_difficulty_level = VehicleConfigType.maximum("difficulty_level")
+  #     if next_difficulty_level <= max_difficulty_level
+  #       new_config_type = VehicleConfigType.find_by(:difficulty_level => next_difficulty_level)
+  #     else
+  #       new_config_type = VehicleConfigType.find_by(:difficulty_level => max_difficulty_level)
+  #     end
+  #     new_post.vehicle_config_type = new_config_type
+  #   })
+  #   customize(lambda { |original_post,new_post|
+  #     new_post.parent = original_post
+  #   })
+  # end
 
   def name
     new_name = "Untitled"
@@ -104,11 +104,11 @@ class VehicleConfig < ApplicationRecord
     HashDiff.diff(veh_conf.diff_object,self.diff_object)
   end
 
-  def diff_from_parent
-    if !parent.blank?
-      diff_from(parent)
-    end
-  end
+  # def diff_from_parent
+  #   if !parent.blank?
+  #     diff_from(parent)
+  #   end
+  # end
 
   def name_for_slug
     if vehicle_config_type && vehicle_make && vehicle_model
@@ -145,7 +145,7 @@ class VehicleConfig < ApplicationRecord
   #   slug
   # end
 
-  def is_base
-    self.parent_id.blank?
-  end
+  # def is_base
+  #   self.parent_id.blank?
+  # end
 end
