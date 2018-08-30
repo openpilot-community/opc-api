@@ -22,6 +22,7 @@ class VehicleConfig < ApplicationRecord
   include VehicleConfigAdmin
   extend FriendlyId
   acts_as_nested_set
+  acts_as_votable
   scope :honda, -> { includes(:vehicle_make, :vehicle_model, :vehicle_trim, :vehicle_config_type).where("vehicle_makes.name = 'Honda'").order("vehicle_models.name, vehicle_trims.name, year, vehicle_config_types.difficulty_level") }
   scope :honda_base, -> { includes(:vehicle_make, :vehicle_model, :vehicle_trim, :vehicle_config_type).where("vehicle_makes.name = 'Honda' AND vehicle_config_types.slug = 'factory'").order("vehicle_models.name, vehicle_trims.name, year, vehicle_config_types.difficulty_level") }
   scope :honda_standard, -> { includes(:vehicle_make, :vehicle_model, :vehicle_trim, :vehicle_config_type).where("vehicle_makes.name = 'Honda' AND vehicle_config_types.slug = 'standard'").order("vehicle_models.name, vehicle_trims.name, year, vehicle_config_types.difficulty_level") }
