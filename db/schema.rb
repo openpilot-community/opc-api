@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_30_182743) do
+ActiveRecord::Schema.define(version: 2018_08_30_195639) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -364,6 +364,8 @@ ActiveRecord::Schema.define(version: 2018_08_30_182743) do
     t.integer "cached_weighted_score", default: 0
     t.integer "cached_weighted_total", default: 0
     t.float "cached_weighted_average", default: 0.0
+    t.integer "primary_repository_id"
+    t.integer "primary_pull_request_id"
     t.index ["depth"], name: "index_vehicle_configs_on_depth"
     t.index ["lft"], name: "index_vehicle_configs_on_lft"
     t.index ["parent_id"], name: "index_vehicle_configs_on_parent_id"
@@ -651,6 +653,8 @@ ActiveRecord::Schema.define(version: 2018_08_30_182743) do
   add_foreign_key "vehicle_config_trims", "vehicle_trims"
   add_foreign_key "vehicle_config_videos", "vehicle_configs"
   add_foreign_key "vehicle_config_videos", "videos"
+  add_foreign_key "vehicle_configs", "pull_requests", column: "primary_pull_request_id"
+  add_foreign_key "vehicle_configs", "repositories", column: "primary_repository_id"
   add_foreign_key "vehicle_configs", "vehicle_config_statuses"
   add_foreign_key "vehicle_configs", "vehicle_config_types"
   add_foreign_key "vehicle_configs", "vehicle_make_packages"
