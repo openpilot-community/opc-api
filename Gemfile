@@ -50,6 +50,7 @@ group :development do
   gem "localtower", github: "damln/localtower"
   gem 'spring-watcher-listen', '~> 2.0.0'
 end
+gem 'watir'
 gem 'iframely'
 gem 'seed_dump'
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

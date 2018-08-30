@@ -15,16 +15,15 @@ class VehicleMake < ApplicationRecord
   friendly_id :name, use: :slugged
   has_paper_trail
   
-  has_many :vehicle_models
+  has_many :vehicle_models, inverse_of: :vehicle_make
   has_many :vehicle_configs
   has_many :vehicle_trims
   scope :with_configs, -> { VehicleMake.joins(:vehicle_configs).where("vehicle_configs.id IS NOT NULL") }
-
+  # accepts_nested_attributes_for :vehicle_models
+  # validates_associated
   def vehicle_models_with_configs
     with_configs.vehicle_models.with_configs
   end
-  
-
   # def to_param
   #   slug
   # end

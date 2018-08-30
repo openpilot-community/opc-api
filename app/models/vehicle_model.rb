@@ -15,7 +15,7 @@ class VehicleModel < ApplicationRecord
   extend FriendlyId
   friendly_id :name_for_slug, use: :slugged
   has_paper_trail
-  belongs_to :vehicle_make
+  belongs_to :vehicle_make, inverse_of: :vehicle_models
   has_many :vehicle_trims
   has_many :vehicle_configs
   has_many :vehicle_model_options
