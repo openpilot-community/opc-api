@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_30_195639) do
+ActiveRecord::Schema.define(version: 2018_08_31_201153) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,6 +65,7 @@ ActiveRecord::Schema.define(version: 2018_08_30_195639) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "source_image_url"
     t.index ["user_id"], name: "index_guides_on_user_id"
   end
 
@@ -85,6 +86,7 @@ ActiveRecord::Schema.define(version: 2018_08_30_195639) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "slug"
+    t.string "source_image_url"
     t.index ["hardware_type_id"], name: "index_hardware_items_on_hardware_type_id"
     t.index ["slug"], name: "index_hardware_items_on_slug", unique: true
   end
@@ -124,6 +126,7 @@ ActiveRecord::Schema.define(version: 2018_08_30_195639) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "slug"
+    t.string "source_image_url"
     t.index ["slug"], name: "index_modifications_on_slug", unique: true
   end
 
@@ -224,6 +227,7 @@ ActiveRecord::Schema.define(version: 2018_08_30_195639) do
     t.string "default_string"
     t.string "default_timeout"
     t.string "default_kph"
+    t.string "source_image_url"
     t.index ["slug"], name: "index_vehicle_capabilities_on_slug", unique: true
   end
 
@@ -366,6 +370,7 @@ ActiveRecord::Schema.define(version: 2018_08_30_195639) do
     t.float "cached_weighted_average", default: 0.0
     t.integer "primary_repository_id"
     t.integer "primary_pull_request_id"
+    t.string "source_image_url"
     t.index ["depth"], name: "index_vehicle_configs_on_depth"
     t.index ["lft"], name: "index_vehicle_configs_on_lft"
     t.index ["parent_id"], name: "index_vehicle_configs_on_parent_id"
@@ -413,6 +418,7 @@ ActiveRecord::Schema.define(version: 2018_08_30_195639) do
     t.string "slack_channel"
     t.string "slug"
     t.integer "status", default: 0
+    t.string "source_image_url"
   end
 
   create_table "vehicle_model_options", force: :cascade do |t|
