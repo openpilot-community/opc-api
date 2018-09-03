@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_31_201153) do
+ActiveRecord::Schema.define(version: 2018_09_03_045947) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -197,6 +197,20 @@ ActiveRecord::Schema.define(version: 2018_08_31_201153) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "user_vehicles", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "vehicle_config_id"
+    t.bigint "vehicle_trim_id"
+    t.bigint "vehicle_trim_style_id"
+    t.string "source_image_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_vehicles_on_user_id"
+    t.index ["vehicle_config_id"], name: "index_user_vehicles_on_vehicle_config_id"
+    t.index ["vehicle_trim_id"], name: "index_user_vehicles_on_vehicle_trim_id"
+    t.index ["vehicle_trim_style_id"], name: "index_user_vehicles_on_vehicle_trim_style_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: ""
     t.string "encrypted_password", default: "", null: false
@@ -371,6 +385,7 @@ ActiveRecord::Schema.define(version: 2018_08_31_201153) do
     t.integer "primary_repository_id"
     t.integer "primary_pull_request_id"
     t.string "source_image_url"
+    t.integer "user_count", default: 0
     t.index ["depth"], name: "index_vehicle_configs_on_depth"
     t.index ["lft"], name: "index_vehicle_configs_on_lft"
     t.index ["parent_id"], name: "index_vehicle_configs_on_parent_id"
@@ -560,6 +575,7 @@ ActiveRecord::Schema.define(version: 2018_08_31_201153) do
     t.string "seats"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_count", default: 0
     t.index ["vehicle_trim_id"], name: "index_vehicle_trim_styles_on_vehicle_trim_id"
   end
 
@@ -570,6 +586,7 @@ ActiveRecord::Schema.define(version: 2018_08_31_201153) do
     t.datetime "updated_at", null: false
     t.integer "sort_order", default: 0
     t.integer "year"
+    t.integer "user_count", default: 0
     t.index ["vehicle_model_id"], name: "index_vehicle_trims_on_vehicle_model_id"
   end
 
@@ -638,6 +655,10 @@ ActiveRecord::Schema.define(version: 2018_08_31_201153) do
   add_foreign_key "modification_hardware_types", "hardware_types"
   add_foreign_key "modification_hardware_types", "modifications"
   add_foreign_key "repository_branches", "repositories"
+  add_foreign_key "user_vehicles", "users"
+  add_foreign_key "user_vehicles", "vehicle_configs"
+  add_foreign_key "user_vehicles", "vehicle_trim_styles"
+  add_foreign_key "user_vehicles", "vehicle_trims"
   add_foreign_key "users", "user_roles"
   add_foreign_key "vehicle_config_capabilities", "users", column: "confirmed_by_id"
   add_foreign_key "vehicle_config_capabilities", "vehicle_capabilities"
