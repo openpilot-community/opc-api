@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_04_195042) do
+ActiveRecord::Schema.define(version: 2018_09_05_144313) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -312,6 +312,7 @@ ActiveRecord::Schema.define(version: 2018_09_04_195042) do
     t.string "default_timeout"
     t.string "default_kph"
     t.string "source_image_url"
+    t.integer "default_state", default: 0
     t.index ["slug"], name: "index_vehicle_capabilities_on_slug", unique: true
   end
 
@@ -327,6 +328,7 @@ ActiveRecord::Schema.define(version: 2018_09_04_195042) do
     t.bigint "vehicle_config_type_id"
     t.bigint "confirmed_by_id"
     t.string "string_value"
+    t.integer "state", default: 0
     t.index ["confirmed_by_id"], name: "index_vehicle_config_capabilities_on_confirmed_by_id"
     t.index ["vehicle_capability_id"], name: "index_vehicle_config_capabilities_on_vehicle_capability_id"
     t.index ["vehicle_config_id"], name: "index_vehicle_config_capabilities_on_vehicle_config_id"
