@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_05_144313) do
+ActiveRecord::Schema.define(version: 2018_09_06_122918) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -106,6 +106,15 @@ ActiveRecord::Schema.define(version: 2018_09_05_144313) do
     t.index ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type"
   end
 
+  create_table "guide_hardware_items", force: :cascade do |t|
+    t.bigint "guide_id"
+    t.bigint "hardware_item_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["guide_id"], name: "index_guide_hardware_items_on_guide_id"
+    t.index ["hardware_item_id"], name: "index_guide_hardware_items_on_hardware_item_id"
+  end
+
   create_table "guides", force: :cascade do |t|
     t.string "title"
     t.text "markdown"
@@ -168,6 +177,16 @@ ActiveRecord::Schema.define(version: 2018_09_05_144313) do
     t.datetime "created_at"
     t.index ["mentionable_id", "mentionable_type"], name: "fk_mentionables"
     t.index ["mentioner_id", "mentioner_type"], name: "fk_mentions"
+  end
+
+  create_table "modification_hardware_items", force: :cascade do |t|
+    t.bigint "modification_id"
+    t.bigint "hardware_item_id"
+    t.string "used_for"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["hardware_item_id"], name: "index_modification_hardware_items_on_hardware_item_id"
+    t.index ["modification_id"], name: "index_modification_hardware_items_on_modification_id"
   end
 
   create_table "modification_hardware_type_hardware_items", force: :cascade do |t|
@@ -333,6 +352,17 @@ ActiveRecord::Schema.define(version: 2018_09_05_144313) do
     t.index ["vehicle_capability_id"], name: "index_vehicle_config_capabilities_on_vehicle_capability_id"
     t.index ["vehicle_config_id"], name: "index_vehicle_config_capabilities_on_vehicle_config_id"
     t.index ["vehicle_config_type_id"], name: "index_vehicle_config_capabilities_on_vehicle_config_type_id"
+  end
+
+  create_table "vehicle_config_guides", force: :cascade do |t|
+    t.bigint "vehicle_config_id"
+    t.bigint "guide_id"
+    t.bigint "vehicle_config_type_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["guide_id"], name: "index_vehicle_config_guides_on_guide_id"
+    t.index ["vehicle_config_id"], name: "index_vehicle_config_guides_on_vehicle_config_id"
+    t.index ["vehicle_config_type_id"], name: "index_vehicle_config_guides_on_vehicle_config_type_id"
   end
 
   create_table "vehicle_config_hardware_items", force: :cascade do |t|
@@ -720,8 +750,12 @@ ActiveRecord::Schema.define(version: 2018_09_05_144313) do
     t.index ["voter_id", "voter_type", "vote_scope"], name: "index_votes_on_voter_id_and_voter_type_and_vote_scope"
   end
 
+  add_foreign_key "guide_hardware_items", "guides"
+  add_foreign_key "guide_hardware_items", "hardware_items"
   add_foreign_key "guides", "users"
   add_foreign_key "hardware_items", "hardware_types"
+  add_foreign_key "modification_hardware_items", "hardware_items"
+  add_foreign_key "modification_hardware_items", "modifications"
   add_foreign_key "modification_hardware_type_hardware_items", "hardware_items"
   add_foreign_key "modification_hardware_type_hardware_items", "modification_hardware_types"
   add_foreign_key "modification_hardware_types", "hardware_types"
@@ -735,6 +769,9 @@ ActiveRecord::Schema.define(version: 2018_09_05_144313) do
   add_foreign_key "vehicle_config_capabilities", "users", column: "confirmed_by_id"
   add_foreign_key "vehicle_config_capabilities", "vehicle_capabilities"
   add_foreign_key "vehicle_config_capabilities", "vehicle_configs"
+  add_foreign_key "vehicle_config_guides", "guides"
+  add_foreign_key "vehicle_config_guides", "vehicle_config_types"
+  add_foreign_key "vehicle_config_guides", "vehicle_configs"
   add_foreign_key "vehicle_config_hardware_items", "hardware_items"
   add_foreign_key "vehicle_config_hardware_items", "vehicle_configs"
   add_foreign_key "vehicle_config_modifications", "modifications"
