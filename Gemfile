@@ -26,6 +26,7 @@ gem 'puma', '~> 3.11'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'hashdiff'
 gem 'amoeba'
+gem 'socialization'
 gem 'awesome_nested_set'
 gem 'rails_admin', '~> 1.3'
 gem 'rails_admin_clone'

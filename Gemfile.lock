@@ -314,6 +314,8 @@ GEM
       nokogiri
       rubyzip
     smarter_csv (1.2.4)
+    socialization (1.2.1)
+      activerecord
     spring (2.0.2)
       activesupport (>= 4.2)
     spring-watcher-listen (2.0.1)
@@ -390,6 +392,7 @@ DEPENDENCIES
   rspec-rails (~> 3.5.2)
   seed_dump
   smarter_csv (~> 1.2, >= 1.2.3)
+  socialization
   spring
   spring-watcher-listen (~> 2.0.0)
   swagger-diff (~> 1.1)
