@@ -1,0 +1,2 @@
+class CabanaLink < ApplicationRecord
+end

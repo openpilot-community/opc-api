@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_07_130148) do
+ActiveRecord::Schema.define(version: 2018_09_09_185738) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,6 +34,18 @@ ActiveRecord::Schema.define(version: 2018_09_07_130148) do
     t.string "checksum", null: false
     t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "cabana_links", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.string "route_id"
+    t.string "route_segment"
+    t.datetime "route_segment_at"
+    t.string "segment_url"
+    t.string "source_cabana_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "commontator_comments", id: :serial, force: :cascade do |t|
@@ -338,6 +350,7 @@ ActiveRecord::Schema.define(version: 2018_09_07_130148) do
     t.string "default_kph"
     t.string "source_image_url"
     t.integer "default_state", default: 0
+    t.string "spec_lookups"
     t.index ["slug"], name: "index_vehicle_capabilities_on_slug", unique: true
   end
 
