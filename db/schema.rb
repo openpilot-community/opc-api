@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_09_185738) do
+ActiveRecord::Schema.define(version: 2018_09_10_191546) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,6 +60,7 @@ ActiveRecord::Schema.define(version: 2018_09_09_185738) do
     t.integer "cached_votes_down", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "body_markup"
     t.index ["cached_votes_down"], name: "index_commontator_comments_on_cached_votes_down"
     t.index ["cached_votes_up"], name: "index_commontator_comments_on_cached_votes_up"
     t.index ["creator_id", "creator_type", "thread_id"], name: "index_commontator_comments_on_c_id_and_c_type_and_t_id"
@@ -164,6 +165,7 @@ ActiveRecord::Schema.define(version: 2018_09_09_185738) do
     t.datetime "updated_at", null: false
     t.string "slug"
     t.string "source_image_url"
+    t.text "description_markup"
     t.index ["hardware_type_id"], name: "index_hardware_items_on_hardware_type_id"
     t.index ["slug"], name: "index_hardware_items_on_slug", unique: true
   end
