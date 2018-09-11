@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_10_191546) do
+ActiveRecord::Schema.define(version: 2018_09_11_010024) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -128,6 +128,15 @@ ActiveRecord::Schema.define(version: 2018_09_10_191546) do
     t.index ["hardware_item_id"], name: "index_guide_hardware_items_on_hardware_item_id"
   end
 
+  create_table "guide_images", force: :cascade do |t|
+    t.bigint "guide_id"
+    t.bigint "image_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["guide_id"], name: "index_guide_images_on_guide_id"
+    t.index ["image_id"], name: "index_guide_images_on_image_id"
+  end
+
   create_table "guides", force: :cascade do |t|
     t.string "title"
     t.text "markdown"
@@ -145,6 +154,15 @@ ActiveRecord::Schema.define(version: 2018_09_10_191546) do
     t.integer "views_count", default: 0, null: false
     t.integer "likers_count", default: 0, null: false
     t.index ["user_id"], name: "index_guides_on_user_id"
+  end
+
+  create_table "hardware_item_images", force: :cascade do |t|
+    t.bigint "hardware_item_id"
+    t.bigint "image_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["hardware_item_id"], name: "index_hardware_item_images_on_hardware_item_id"
+    t.index ["image_id"], name: "index_hardware_item_images_on_image_id"
   end
 
   create_table "hardware_items", force: :cascade do |t|
@@ -177,6 +195,13 @@ ActiveRecord::Schema.define(version: 2018_09_10_191546) do
     t.datetime "updated_at", null: false
     t.string "slug"
     t.index ["slug"], name: "index_hardware_types_on_slug", unique: true
+  end
+
+  create_table "images", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "likes", id: :serial, force: :cascade do |t|
@@ -393,6 +418,15 @@ ActiveRecord::Schema.define(version: 2018_09_10_191546) do
     t.datetime "updated_at", null: false
     t.index ["hardware_item_id"], name: "index_vehicle_config_hardware_items_on_hardware_item_id"
     t.index ["vehicle_config_id"], name: "index_vehicle_config_hardware_items_on_vehicle_config_id"
+  end
+
+  create_table "vehicle_config_images", force: :cascade do |t|
+    t.bigint "vehicle_config_id"
+    t.bigint "image_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["image_id"], name: "index_vehicle_config_images_on_image_id"
+    t.index ["vehicle_config_id"], name: "index_vehicle_config_images_on_vehicle_config_id"
   end
 
   create_table "vehicle_config_modifications", force: :cascade do |t|

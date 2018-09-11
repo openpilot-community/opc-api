@@ -1,0 +1,2 @@
+class GuideImage < ApplicationRecord
+end
