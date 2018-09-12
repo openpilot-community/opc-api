@@ -27,6 +27,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'hashdiff'
 gem 'amoeba'
 gem 'socialization'
+gem 'thredded', '~> 0.15.4'
 gem 'awesome_nested_set'
 gem 'rails_admin', '~> 1.3'
 gem 'rails_admin_clone'
