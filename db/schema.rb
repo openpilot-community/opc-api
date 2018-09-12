@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_12_130537) do
+ActiveRecord::Schema.define(version: 2018_09_12_144344) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -483,7 +483,7 @@ ActiveRecord::Schema.define(version: 2018_09_12_130537) do
     t.integer "posts_count", default: 0
     t.integer "topics_count", default: 0
     t.datetime "last_seen_at"
-    t.integer "moderation_state", default: 0, null: false
+    t.integer "moderation_state", default: 1, null: false
     t.datetime "moderation_state_changed_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -771,10 +771,12 @@ ActiveRecord::Schema.define(version: 2018_09_12_130537) do
     t.integer "user_count", default: 0
     t.integer "views_count", default: 0, null: false
     t.integer "followers_count", default: 0, null: false
+    t.bigint "thredded_messageboard_id"
     t.index ["depth"], name: "index_vehicle_configs_on_depth"
     t.index ["lft"], name: "index_vehicle_configs_on_lft"
     t.index ["parent_id"], name: "index_vehicle_configs_on_parent_id"
     t.index ["rgt"], name: "index_vehicle_configs_on_rgt"
+    t.index ["thredded_messageboard_id"], name: "index_vehicle_configs_on_thredded_messageboard_id"
     t.index ["vehicle_config_status_id"], name: "index_vehicle_configs_on_vehicle_config_status_id"
     t.index ["vehicle_config_type_id"], name: "index_vehicle_configs_on_vehicle_config_type_id"
     t.index ["vehicle_make_id"], name: "index_vehicle_configs_on_vehicle_make_id"

@@ -61,6 +61,7 @@ class VehicleConfig < ApplicationRecord
   
   has_many :vehicle_config_videos, dependent: :destroy
 
+  belongs_to :thredded_messageboard, :optional => true
   # FORK CONFIGURATION
   # amoeba do
   #   enable
@@ -83,7 +84,15 @@ class VehicleConfig < ApplicationRecord
   #     new_post.parent = original_post
   #   })
   # end
+  before_save :setup_messageboard
+  
 
+  def setup_messageboard
+    if thredded_messageboard.blank?
+      new_messageboard = Thredded::Messageboard.new(messageboard_params)
+      authorize_creating @new_messageboard
+    end
+  end
   def name
     new_name = "Untitled"
     if vehicle_config_type && vehicle_make && vehicle_model
