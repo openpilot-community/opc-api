@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_12_144344) do
+ActiveRecord::Schema.define(version: 2019_01_03_133313) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -267,6 +267,15 @@ ActiveRecord::Schema.define(version: 2018_09_12_144344) do
     t.index ["slug"], name: "index_modifications_on_slug", unique: true
   end
 
+  create_table "pg_search_documents", force: :cascade do |t|
+    t.text "content"
+    t.string "searchable_type"
+    t.bigint "searchable_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["searchable_type", "searchable_id"], name: "index_pg_search_documents_on_searchable_type_and_searchable_id"
+  end
+
   create_table "pull_requests", force: :cascade do |t|
     t.string "name"
     t.string "number"
@@ -317,6 +326,22 @@ ActiveRecord::Schema.define(version: 2018_09_12_144344) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["repository_id"], name: "index_repository_branches_on_repository_id"
+  end
+
+  create_table "shortened_urls", id: :serial, force: :cascade do |t|
+    t.integer "owner_id"
+    t.string "owner_type", limit: 20
+    t.text "url", null: false
+    t.string "unique_key", limit: 10, null: false
+    t.string "category"
+    t.integer "use_count", default: 0, null: false
+    t.datetime "expires_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["category"], name: "index_shortened_urls_on_category"
+    t.index ["owner_id", "owner_type"], name: "index_shortened_urls_on_owner_id_and_owner_type"
+    t.index ["unique_key"], name: "index_shortened_urls_on_unique_key", unique: true
+    t.index ["url"], name: "index_shortened_urls_on_url"
   end
 
   create_table "thredded_categories", force: :cascade do |t|
@@ -624,6 +649,15 @@ ActiveRecord::Schema.define(version: 2018_09_12_144344) do
     t.index ["vehicle_capability_id"], name: "index_vehicle_config_capabilities_on_vehicle_capability_id"
     t.index ["vehicle_config_id"], name: "index_vehicle_config_capabilities_on_vehicle_config_id"
     t.index ["vehicle_config_type_id"], name: "index_vehicle_config_capabilities_on_vehicle_config_type_id"
+  end
+
+  create_table "vehicle_config_fingerprints", force: :cascade do |t|
+    t.bigint "vehicle_config_id"
+    t.string "label"
+    t.string "fingerprint"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["vehicle_config_id"], name: "index_vehicle_config_fingerprints_on_vehicle_config_id"
   end
 
   create_table "vehicle_config_guides", force: :cascade do |t|
@@ -1061,6 +1095,7 @@ ActiveRecord::Schema.define(version: 2018_09_12_144344) do
   add_foreign_key "vehicle_config_capabilities", "users", column: "confirmed_by_id"
   add_foreign_key "vehicle_config_capabilities", "vehicle_capabilities"
   add_foreign_key "vehicle_config_capabilities", "vehicle_configs"
+  add_foreign_key "vehicle_config_fingerprints", "vehicle_configs"
   add_foreign_key "vehicle_config_guides", "guides"
   add_foreign_key "vehicle_config_guides", "vehicle_config_types"
   add_foreign_key "vehicle_config_guides", "vehicle_configs"
