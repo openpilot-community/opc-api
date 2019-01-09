@@ -12,5 +12,6 @@
 class VehicleMakePackage < ApplicationRecord
   extend FriendlyId
   friendly_id :name, use: :slugged
+  belongs_to :vehicle_make
   
 end

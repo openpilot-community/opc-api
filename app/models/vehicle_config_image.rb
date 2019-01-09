@@ -1,9 +1,9 @@
-class GuideImage < ApplicationRecord
-  belongs_to :guide
+class VehicleConfigImage < ApplicationRecord
+  belongs_to :vehicle_config
   belongs_to :image
-  accepts_nested_attributes_for :image
+
   def name
-    "#{guide.name} / #{image.name}"
+    "#{vehicle_config.name} / #{image.name}"
   end
 
   def as_json(options={})

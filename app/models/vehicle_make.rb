@@ -11,19 +11,38 @@
 #
 
 class VehicleMake < ApplicationRecord
+  default_scope { order(:name) }
+  paginates_per 200
   extend FriendlyId
   friendly_id :name, use: :slugged
   has_paper_trail
   
-  has_many :vehicle_models, inverse_of: :vehicle_make
+  has_many :vehicle_make_packages
+  has_many :vehicle_models
   has_many :vehicle_configs
   has_many :vehicle_trims
-  scope :with_configs, -> { VehicleMake.joins(:vehicle_configs).where("vehicle_configs.id IS NOT NULL") }
-  # accepts_nested_attributes_for :vehicle_models
-  # validates_associated
-  def vehicle_models_with_configs
-    with_configs.vehicle_models.with_configs
+  scope :with_configs, -> { VehicleMake.includes(:vehicle_models).joins(:vehicle_configs).where("vehicle_configs.id IS NOT NULL").order("vehicle_makes.name").uniq }
+  
+  def active_count
+    vehicle_models.where(status: 1).count()
   end
+
+  def inactive_count
+    vehicle_models.where(status: 0).count()
+  end
+  
+  def vehicle_models_with_configs
+    if vehicle_models
+      vehicle_models.order("name").select do |model|
+        model.has_configs?
+      end
+      # left_outer_joins(:vehicle_configs).where.not(vehicle_configs: {id: nil})
+    end
+  end
+  
+  # def name_for_slug
+  #   "#{id} #{name}"
+  # end
   # def to_param
   #   slug
   # end

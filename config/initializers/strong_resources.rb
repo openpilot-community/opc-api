@@ -31,6 +31,8 @@
 #
 # For additional documentation, see https://jsonapi-suite.github.io/strong_resources
 StrongResources.configure do
+  strong_resource :user_discord_vehicle do
+  end
   strong_resource :modification_hardware_type_hardware_item do
   end
   strong_resource :modification_hardware_type do

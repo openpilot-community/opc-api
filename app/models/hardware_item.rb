@@ -22,8 +22,29 @@
 
 class HardwareItem < ApplicationRecord
   extend FriendlyId
+  has_one_attached :image
   friendly_id :name, use: :slugged
-  belongs_to :hardware_type
+  belongs_to :hardware_type, optional: true
+  after_save :set_image_scraper
+  has_many :guide_hardware_items
+  has_many :guides, :through => :guide_hardware_items
+  has_many :video_hardware_items
+  has_many :videos, :through => :video_hardware_items
+
+  before_save :set_markup
+  
+  def set_image_scraper
+    if saved_change_to_source_image_url?
+      DownloadImageFromSourceWorker.perform_async(id,HardwareItem)
+    end
+  end
+
+  def set_markup
+    if self.description.present?
+      self.description_markup = Octokit.markdown(self.description, :mode => "gfm", :context => "commaai/openpilot")
+    end
+  end
+  
   # has_many :vehicle_config_hardware_items
   # has_many :video_hardware_items
   # has_many :videos, :through => :video_hardware

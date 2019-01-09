@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_03_133313) do
+ActiveRecord::Schema.define(version: 2019_01_05_185956) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -574,6 +574,14 @@ ActiveRecord::Schema.define(version: 2019_01_03_133313) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "user_discord_vehicles", force: :cascade do |t|
+    t.string "discord_user_id"
+    t.bigint "vehicle_config_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["vehicle_config_id"], name: "index_user_discord_vehicles_on_vehicle_config_id"
+  end
+
   create_table "user_roles", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -1087,6 +1095,7 @@ ActiveRecord::Schema.define(version: 2019_01_03_133313) do
   add_foreign_key "thredded_messageboard_users", "thredded_user_details", on_delete: :cascade
   add_foreign_key "thredded_user_post_notifications", "thredded_posts", column: "post_id", on_delete: :cascade
   add_foreign_key "thredded_user_post_notifications", "users", on_delete: :cascade
+  add_foreign_key "user_discord_vehicles", "vehicle_configs"
   add_foreign_key "user_vehicles", "users"
   add_foreign_key "user_vehicles", "vehicle_configs"
   add_foreign_key "user_vehicles", "vehicle_trim_styles"
