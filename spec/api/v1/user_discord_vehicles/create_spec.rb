@@ -17,13 +17,12 @@ RSpec.describe "user_discord_vehicles#create", type: :request do
       }
     end
 
-    it 'creates the resource' do
+    it 'works' do
+      expect(UserDiscordVehicleResource).to receive(:build).and_call_original
       expect {
         make_request
       }.to change { UserDiscordVehicle.count }.by(1)
-      user_discord_vehicle = UserDiscordVehicle.last
-
-      assert_payload(:user_discord_vehicle, user_discord_vehicle, json_item)
+      expect(response.status).to eq(201)
     end
   end
 end

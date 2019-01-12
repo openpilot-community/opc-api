@@ -28,13 +28,13 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'hashdiff'
 gem 'amoeba'
 gem 'socialization'
-gem 'thredded', '~> 0.15.4'
+# gem 'thredded', '~> 0.15.4'
 gem 'awesome_nested_set'
-gem 'rails_admin', '~> 1.3'
-gem 'rails_admin_clone'
-gem 'rails_admin_rollincode', '~> 1.0'
-gem "rails_admin_import", "~> 2.1"
-gem 'rails_admin_settings'
+# gem 'rails_admin', '~> 1.3'
+# gem 'rails_admin_clone'
+# gem 'rails_admin_rollincode', '~> 1.0'
+# gem "rails_admin_import", "~> 2.1"
+# gem 'rails_admin_settings'
 gem 'jwt'
 gem 'rails_api_auth'
 gem 'friendly_id', '~> 5.2.0' # Note: You MUST use 5.0.0 or greater for Rails 4.0+
@@ -56,20 +56,24 @@ end
 gem 'watir'
 gem 'iframely'
 gem 'seed_dump'
+gem 'vandal_ui'
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'smarter_csv', '~> 1.2', '>= 1.2.3'
 gem "octokit", "~> 4.0"
-gem 'jsonapi_suite', '~> 0.7'
-gem 'jsonapi-rails', '~> 0.3.0'
-gem 'jsonapi_swagger_helpers', '~> 0.6', require: false
+# gem 'jsonapi_suite', '~> 0.7'
+# gem 'jsonapi-rails', '~> 0.3.0'
+# gem 'jsonapi_swagger_helpers', '~> 0.6', require: false
 gem 'jsonapi_spec_helpers', '~> 0.4', require: false
+gem 'graphiti'
+gem 'graphiti_spec_helpers'
+gem 'responders'
 gem 'kaminari', '~> 1.0'
 group :development, :test do
   gem 'rspec-rails', '~> 3.5.2'
   gem 'factory_bot_rails', '~> 4.0'
   gem 'faker', '~> 1.7'
-  gem 'swagger-diff', '~> 1.1'
+  # gem 'swagger-diff', '~> 1.1'
 end
 gem 'nhtsa'
 group :test do

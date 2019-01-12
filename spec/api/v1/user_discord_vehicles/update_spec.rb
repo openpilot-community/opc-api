@@ -22,12 +22,11 @@ RSpec.describe "user_discord_vehicles#update", type: :request do
 
     # Replace 'xit' with 'it' after adding attributes
     xit 'updates the resource' do
+      expect(UserDiscordVehicleResource).to receive(:find).and_call_original
       expect {
         make_request
       }.to change { user_discord_vehicle.reload.attributes }
-      assert_payload(:user_discord_vehicle, user_discord_vehicle, json_item)
-
-      # ... assert updates attributes ...
+      expect(response.status).to eq(200)
     end
   end
 end
