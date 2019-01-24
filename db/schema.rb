@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_12_153650) do
+ActiveRecord::Schema.define(version: 2019_01_24_151935) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,7 +48,7 @@ ActiveRecord::Schema.define(version: 2019_01_12_153650) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "commontator_comments", id: :serial, force: :cascade do |t|
+  create_table "commontator_comments", id: :integer, default: nil, force: :cascade do |t|
     t.string "creator_type"
     t.integer "creator_id"
     t.string "editor_type"
@@ -67,7 +67,7 @@ ActiveRecord::Schema.define(version: 2019_01_12_153650) do
     t.index ["thread_id", "created_at"], name: "index_commontator_comments_on_thread_id_and_created_at"
   end
 
-  create_table "commontator_subscriptions", id: :serial, force: :cascade do |t|
+  create_table "commontator_subscriptions", id: :integer, default: nil, force: :cascade do |t|
     t.string "subscriber_type", null: false
     t.integer "subscriber_id", null: false
     t.integer "thread_id", null: false
@@ -77,7 +77,7 @@ ActiveRecord::Schema.define(version: 2019_01_12_153650) do
     t.index ["thread_id"], name: "index_commontator_subscriptions_on_thread_id"
   end
 
-  create_table "commontator_threads", id: :serial, force: :cascade do |t|
+  create_table "commontator_threads", id: :integer, default: nil, force: :cascade do |t|
     t.string "commontable_type"
     t.integer "commontable_id"
     t.datetime "closed_at"
@@ -97,7 +97,32 @@ ActiveRecord::Schema.define(version: 2019_01_12_153650) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "follows", id: :serial, force: :cascade do |t|
+  create_table "discord_settings", primary_key: "guild", id: :string, limit: 255, force: :cascade do |t|
+    t.text "settings"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "discord_user_vehicles", id: :serial, comment: "unique discord_user_vehicles identifier", force: :cascade do |t|
+    t.string "discord_user_id", limit: 255
+    t.integer "vehicle_config_id"
+    t.integer "vehicle_year"
+    t.string "vehicle_make", limit: 255
+    t.string "vehicle_model", limit: 255
+    t.string "vehicle_trim", limit: 255
+  end
+
+  create_table "discord_users", id: :string, limit: 255, force: :cascade do |t|
+    t.string "avatar", limit: 255
+    t.string "username", limit: 255
+    t.string "info", limit: 255
+    t.string "location", limit: 255
+    t.boolean "afk", default: false, null: false
+    t.string "afkmessage", limit: 255
+    t.boolean "blacklisted"
+  end
+
+  create_table "follows", id: :integer, default: nil, force: :cascade do |t|
     t.string "follower_type"
     t.integer "follower_id"
     t.string "followable_type"
@@ -107,7 +132,7 @@ ActiveRecord::Schema.define(version: 2019_01_12_153650) do
     t.index ["follower_id", "follower_type"], name: "fk_follows"
   end
 
-  create_table "friendly_id_slugs", id: :serial, force: :cascade do |t|
+  create_table "friendly_id_slugs", id: :integer, default: nil, force: :cascade do |t|
     t.string "slug", null: false
     t.integer "sluggable_id", null: false
     t.string "sluggable_type", limit: 50
@@ -199,6 +224,15 @@ ActiveRecord::Schema.define(version: 2019_01_12_153650) do
     t.index ["slug"], name: "index_hardware_types_on_slug", unique: true
   end
 
+  create_table "identities", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "uid"
+    t.string "provider"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_identities_on_user_id"
+  end
+
   create_table "images", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -208,7 +242,7 @@ ActiveRecord::Schema.define(version: 2019_01_12_153650) do
     t.integer "width"
   end
 
-  create_table "likes", id: :serial, force: :cascade do |t|
+  create_table "likes", id: :integer, default: nil, force: :cascade do |t|
     t.string "liker_type"
     t.integer "liker_id"
     t.string "likeable_type"
@@ -218,7 +252,7 @@ ActiveRecord::Schema.define(version: 2019_01_12_153650) do
     t.index ["liker_id", "liker_type"], name: "fk_likes"
   end
 
-  create_table "mentions", id: :serial, force: :cascade do |t|
+  create_table "mentions", id: :integer, default: nil, force: :cascade do |t|
     t.string "mentioner_type"
     t.integer "mentioner_id"
     t.string "mentionable_type"
@@ -268,6 +302,10 @@ ActiveRecord::Schema.define(version: 2019_01_12_153650) do
     t.index ["slug"], name: "index_modifications_on_slug", unique: true
   end
 
+  create_table "openrecord_migrations", id: false, force: :cascade do |t|
+    t.string "name", limit: 255
+  end
+
   create_table "pg_search_documents", force: :cascade do |t|
     t.text "content"
     t.string "searchable_type"
@@ -297,7 +335,7 @@ ActiveRecord::Schema.define(version: 2019_01_12_153650) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "rails_admin_settings", id: :serial, force: :cascade do |t|
+  create_table "rails_admin_settings", id: :integer, default: nil, force: :cascade do |t|
     t.boolean "enabled", default: true
     t.string "kind", default: "string", null: false
     t.string "ns", default: "main"
@@ -329,7 +367,7 @@ ActiveRecord::Schema.define(version: 2019_01_12_153650) do
     t.index ["repository_id"], name: "index_repository_branches_on_repository_id"
   end
 
-  create_table "shortened_urls", id: :serial, force: :cascade do |t|
+  create_table "shortened_urls", id: :integer, default: nil, force: :cascade do |t|
     t.integer "owner_id"
     t.string "owner_type", limit: 20
     t.text "url", null: false
@@ -617,6 +655,7 @@ ActiveRecord::Schema.define(version: 2019_01_12_153650) do
     t.string "github_username"
     t.bigint "user_role_id"
     t.boolean "guest", default: false
+    t.string "discord_username"
     t.index "lower((github_username)::text) text_pattern_ops", name: "users_github_username_lower", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
@@ -1067,7 +1106,7 @@ ActiveRecord::Schema.define(version: 2019_01_12_153650) do
     t.integer "likers_count", default: 0, null: false
   end
 
-  create_table "votes", id: :serial, force: :cascade do |t|
+  create_table "votes", id: :integer, default: nil, force: :cascade do |t|
     t.string "votable_type"
     t.integer "votable_id"
     t.string "voter_type"
@@ -1081,10 +1120,13 @@ ActiveRecord::Schema.define(version: 2019_01_12_153650) do
     t.index ["voter_id", "voter_type", "vote_scope"], name: "index_votes_on_voter_id_and_voter_type_and_vote_scope"
   end
 
+  add_foreign_key "discord_user_vehicles", "discord_users", name: "discord_user_vehicles_discord_user_id_foreign"
+  add_foreign_key "discord_user_vehicles", "vehicle_configs", name: "discord_user_vehicles_vehicle_config_id_foreign"
   add_foreign_key "guide_hardware_items", "guides"
   add_foreign_key "guide_hardware_items", "hardware_items"
   add_foreign_key "guides", "users"
   add_foreign_key "hardware_items", "hardware_types"
+  add_foreign_key "identities", "users"
   add_foreign_key "modification_hardware_items", "hardware_items"
   add_foreign_key "modification_hardware_items", "modifications"
   add_foreign_key "modification_hardware_type_hardware_items", "hardware_items"

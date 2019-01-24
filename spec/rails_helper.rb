@@ -30,7 +30,7 @@ ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
-  config.include JsonapiSpecHelpers
+  # config.include JsonapiSpecHelpers
 
   config.before :each do
     GraphitiErrors.disable!
