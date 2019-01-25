@@ -679,6 +679,8 @@ ActiveRecord::Schema.define(version: 2019_01_25_160030) do
     t.bigint "vehicle_config_id"
     t.string "youtube_channel_url"
     t.string "twitter_username"
+    t.text "bio_markdown"
+    t.text "bio_markup"
     t.index "lower((github_username)::text) text_pattern_ops", name: "users_github_username_lower", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
