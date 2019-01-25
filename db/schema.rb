@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_24_151935) do
+ActiveRecord::Schema.define(version: 2019_01_25_160030) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -120,6 +120,7 @@ ActiveRecord::Schema.define(version: 2019_01_24_151935) do
     t.boolean "afk", default: false, null: false
     t.string "afkmessage", limit: 255
     t.boolean "blacklisted"
+    t.integer "user_id"
   end
 
   create_table "follows", id: :integer, default: nil, force: :cascade do |t|
@@ -621,6 +622,15 @@ ActiveRecord::Schema.define(version: 2019_01_24_151935) do
     t.index ["vehicle_config_id"], name: "index_user_discord_vehicles_on_vehicle_config_id"
   end
 
+  create_table "user_hardware_items", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "hardware_item_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["hardware_item_id"], name: "index_user_hardware_items_on_hardware_item_id"
+    t.index ["user_id"], name: "index_user_hardware_items_on_user_id"
+  end
+
   create_table "user_roles", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -642,6 +652,15 @@ ActiveRecord::Schema.define(version: 2019_01_24_151935) do
     t.index ["vehicle_trim_style_id"], name: "index_user_vehicles_on_vehicle_trim_style_id"
   end
 
+  create_table "user_videos", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "video_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_videos_on_user_id"
+    t.index ["video_id"], name: "index_user_videos_on_video_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: ""
     t.string "encrypted_password", default: "", null: false
@@ -656,10 +675,15 @@ ActiveRecord::Schema.define(version: 2019_01_24_151935) do
     t.bigint "user_role_id"
     t.boolean "guest", default: false
     t.string "discord_username"
+    t.string "openpilot_experience"
+    t.bigint "vehicle_config_id"
+    t.string "youtube_channel_url"
+    t.string "twitter_username"
     t.index "lower((github_username)::text) text_pattern_ops", name: "users_github_username_lower", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["user_role_id"], name: "index_users_on_user_role_id"
+    t.index ["vehicle_config_id"], name: "index_users_on_vehicle_config_id"
   end
 
   create_table "vehicle_capabilities", force: :cascade do |t|
@@ -1122,6 +1146,7 @@ ActiveRecord::Schema.define(version: 2019_01_24_151935) do
 
   add_foreign_key "discord_user_vehicles", "discord_users", name: "discord_user_vehicles_discord_user_id_foreign"
   add_foreign_key "discord_user_vehicles", "vehicle_configs", name: "discord_user_vehicles_vehicle_config_id_foreign"
+  add_foreign_key "discord_users", "users", name: "discord_users_user_id_foreign"
   add_foreign_key "guide_hardware_items", "guides"
   add_foreign_key "guide_hardware_items", "hardware_items"
   add_foreign_key "guides", "users"
@@ -1139,11 +1164,16 @@ ActiveRecord::Schema.define(version: 2019_01_24_151935) do
   add_foreign_key "thredded_user_post_notifications", "thredded_posts", column: "post_id", on_delete: :cascade
   add_foreign_key "thredded_user_post_notifications", "users", on_delete: :cascade
   add_foreign_key "user_discord_vehicles", "vehicle_configs"
+  add_foreign_key "user_hardware_items", "hardware_items"
+  add_foreign_key "user_hardware_items", "users"
   add_foreign_key "user_vehicles", "users"
   add_foreign_key "user_vehicles", "vehicle_configs"
   add_foreign_key "user_vehicles", "vehicle_trim_styles"
   add_foreign_key "user_vehicles", "vehicle_trims"
+  add_foreign_key "user_videos", "users"
+  add_foreign_key "user_videos", "videos"
   add_foreign_key "users", "user_roles"
+  add_foreign_key "users", "vehicle_configs"
   add_foreign_key "vehicle_config_capabilities", "users", column: "confirmed_by_id"
   add_foreign_key "vehicle_config_capabilities", "vehicle_capabilities"
   add_foreign_key "vehicle_config_capabilities", "vehicle_configs"
