@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_25_160030) do
+ActiveRecord::Schema.define(version: 2019_01_26_192455) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -133,7 +133,7 @@ ActiveRecord::Schema.define(version: 2019_01_25_160030) do
     t.index ["follower_id", "follower_type"], name: "fk_follows"
   end
 
-  create_table "friendly_id_slugs", id: :integer, default: nil, force: :cascade do |t|
+  create_table "friendly_id_slugs", id: :integer, default: -> { "nextval('friendly_id_slugs_seq'::regclass)" }, force: :cascade do |t|
     t.string "slug", null: false
     t.integer "sluggable_id", null: false
     t.string "sluggable_type", limit: 50
@@ -347,6 +347,21 @@ ActiveRecord::Schema.define(version: 2019_01_25_160030) do
     t.datetime "updated_at", null: false
     t.index ["key"], name: "index_rails_admin_settings_on_key"
     t.index ["ns", "key"], name: "index_rails_admin_settings_on_ns_and_key", unique: true
+  end
+
+  create_table "release_features", force: :cascade do |t|
+    t.bigint "release_id"
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["release_id"], name: "index_release_features_on_release_id"
+  end
+
+  create_table "releases", force: :cascade do |t|
+    t.string "name"
+    t.string "version"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "repositories", force: :cascade do |t|
@@ -1160,6 +1175,7 @@ ActiveRecord::Schema.define(version: 2019_01_25_160030) do
   add_foreign_key "modification_hardware_type_hardware_items", "modification_hardware_types"
   add_foreign_key "modification_hardware_types", "hardware_types"
   add_foreign_key "modification_hardware_types", "modifications"
+  add_foreign_key "release_features", "releases"
   add_foreign_key "repository_branches", "repositories"
   add_foreign_key "thredded_messageboard_users", "thredded_messageboards", on_delete: :cascade
   add_foreign_key "thredded_messageboard_users", "thredded_user_details", on_delete: :cascade
